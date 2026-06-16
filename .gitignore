@@ -1,0 +1,28 @@
+# Dependencies
+nexora-api/node_modules/
+nexora-web/node_modules/
+
+# Build output
+nexora-api/dist/
+nexora-web/.next/
+
+# Environment files (contain secrets)
+nexora-api/.env
+nexora-web/.env.local
+.env
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Playwright MCP
+.playwright-mcp/
+
+# Temp files
+0
+dev-err.txt
+dev-out.txt

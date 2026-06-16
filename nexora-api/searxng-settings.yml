@@ -1,0 +1,21 @@
+search:
+  formats:
+    - html
+    - json
+  safe_search: 0
+  autocomplete: 'google'
+
+server:
+  secret_key: "nexora-searxng-secret-change-in-production"
+  limiter: false
+  image_proxy: false
+
+ui:
+  static_use_hash: true
+
+enabled_plugins:
+  - 'Basic Calculator'
+  - 'Hash plugin'
+  - 'Self Information'
+  - 'Tracker URL remover'
+  - 'Search on category select'

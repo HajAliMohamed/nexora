@@ -1,0 +1,105 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: nexora-db
+    ports:
+      - '5433:5432'
+    environment:
+      POSTGRES_DB: nexora
+      POSTGRES_USER: nexora
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-nexora}
+    volumes:
+      - nexora-pgdata:/var/lib/postgresql/data
+    networks:
+      - nexora
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U nexora']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: nexora-redis
+    ports:
+      - '6380:6379'
+    networks:
+      - nexora
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  searxng:
+    image: searxng/searxng:latest
+    container_name: nexora-searxng
+    ports:
+      - '8888:8080'
+    environment:
+      SEARXNG_BASE_URL: http://localhost:8888
+    volumes:
+      - ./searxng-settings.yml:/etc/searxng/settings.yml:ro
+    cap_add:
+      - CHOWN
+      - SETGID
+      - SETUID
+    networks:
+      - nexora
+
+  api:
+    build:
+      context: ./nexora-api
+      dockerfile: Dockerfile
+    container_name: nexora-api
+    ports:
+      - '127.0.0.1:3003:3001'
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgresql://nexora:${DB_PASSWORD:-nexora}@postgres:5432/nexora
+      REDIS_URL: redis://redis:6379
+      JWT_SECRET: ${JWT_SECRET:?JWT_SECRET is required}
+      JWT_EXPIRES_IN: 15m
+      JWT_REFRESH_EXPIRES_IN: 7d
+      FRONTEND_URL: https://${WEB_DOMAIN:?WEB_DOMAIN is required}
+      SERP_PROVIDER: searxng
+      SEARXNG_BASE_URL: http://searxng:8080
+      KEYWORDS_PROVIDER: autocomplete
+      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY:?STRIPE_SECRET_KEY is required}
+      STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET:?STRIPE_WEBHOOK_SECRET is required}
+      STRIPE_PRO_PRICE_ID: ${STRIPE_PRO_PRICE_ID:?STRIPE_PRO_PRICE_ID is required}
+      STRIPE_AGENCY_PRICE_ID: ${STRIPE_AGENCY_PRICE_ID:?STRIPE_AGENCY_PRICE_ID is required}
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@nexora.io}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - nexora
+    restart: unless-stopped
+
+  web:
+    build:
+      context: ./nexora-web
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: https://${API_DOMAIN:?API_DOMAIN is required}
+    container_name: nexora-web
+    ports:
+      - '127.0.0.1:3004:3000'
+    environment:
+      NODE_ENV: production
+    depends_on:
+      - api
+    networks:
+      - nexora
+    restart: unless-stopped
+
+networks:
+  nexora:
+    driver: bridge
+
+volumes:
+  nexora-pgdata:
