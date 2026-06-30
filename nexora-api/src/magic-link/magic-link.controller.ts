@@ -45,15 +45,17 @@ export class MagicLinkController {
       return res.redirect(`${frontendUrl}/client/login?error=expired`);
     }
 
-    let user = await this.usersService.findByEmail(email);
-    if (!user) {
-      const client = await this.clientsService.findById(clientId);
+    const clientRecord = await this.clientsService.findById(clientId);
+
+    let user;
+    if (clientRecord.userId) {
+      user = await this.usersService.findById(clientRecord.userId);
+    } else {
       const randomPassword = Math.random().toString(36).slice(-12);
       const passwordHash = await bcrypt.hash(randomPassword, 10);
-      user = await this.usersService.createAsClient(email, passwordHash, email.split('@')[0], client?.agencyId);
+      user = await this.usersService.createAsClient(email, passwordHash, email.split('@')[0], clientRecord.agencyId);
+      await this.clientsService.linkUser(clientId, user.id);
     }
-
-    await this.clientsService.linkUser(clientId, user.id);
 
     const accessToken = this.jwtService.sign(
       { sub: user.id, email: user.email },

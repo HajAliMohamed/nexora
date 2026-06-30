@@ -42,11 +42,7 @@ export class ReportsController {
 
   @Get()
   async listMyReports(@Req() req: Request) {
-    const userId = (req as any).user.id;
     const email = (req as any).user.email;
-
-    const ownedProjects = await this.projectRepo.find({ where: { userId } });
-    const ownedIds = ownedProjects.map(p => p.id);
 
     const clientUser = await this.clientRepo.findOne({ where: { email } });
     let clientProjectIds: string[] = [];
@@ -55,22 +51,17 @@ export class ReportsController {
       clientProjectIds = clientProjects.map(p => p.id);
     }
 
-    const allProjectIds = [...new Set([...ownedIds, ...clientProjectIds])];
-    if (allProjectIds.length === 0) return [];
+    if (clientProjectIds.length === 0) return [];
 
     return this.reportRepo.find({
-      where: { projectId: In(allProjectIds) },
+      where: { projectId: In(clientProjectIds) },
       order: { createdAt: 'DESC' },
     });
   }
 
   @Get('client-dashboard')
   async clientDashboard(@Req() req: Request) {
-    const userId = (req as any).user.id;
     const email = (req as any).user.email;
-
-    const ownedProjects = await this.projectRepo.find({ where: { userId } });
-    const ownedIds = ownedProjects.map(p => p.id);
 
     const clientUser = await this.clientRepo.findOne({ where: { email } });
     let clientProjectIds: string[] = [];
@@ -79,18 +70,17 @@ export class ReportsController {
       clientProjectIds = clientProjects.map(p => p.id);
     }
 
-    const allProjectIds = [...new Set([...ownedIds, ...clientProjectIds])];
-    if (allProjectIds.length === 0) return { projects: [], audits: [], reports: [] };
+    if (clientProjectIds.length === 0) return { projects: [], audits: [], reports: [] };
 
-    const projects = await this.projectRepo.find({ where: { id: In(allProjectIds) } });
+    const projects = await this.projectRepo.find({ where: { id: In(clientProjectIds) } });
 
     const audits = await this.auditRepo.find({
-      where: { projectId: In(allProjectIds), status: 'completed' },
+      where: { projectId: In(clientProjectIds), status: 'completed' },
       order: { createdAt: 'DESC' },
     });
 
     const reports = await this.reportRepo.find({
-      where: { projectId: In(allProjectIds) },
+      where: { projectId: In(clientProjectIds) },
       order: { createdAt: 'DESC' },
     });
 

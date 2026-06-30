@@ -32,7 +32,16 @@ export class UsersService {
 
   async createAsClient(email: string, password: string, name?: string, agencyId?: string): Promise<User> {
     const existing = await this.findByEmail(email);
-    if (existing) return existing;
+    if (existing) {
+      if (existing.role === 'client') return existing;
+      const [localPart, domain] = email.split('@');
+      const uniqueEmail = `${localPart}+client@${domain}`;
+      const existingSuffixed = await this.findByEmail(uniqueEmail);
+      if (existingSuffixed) return existingSuffixed;
+      const passwordHash = await bcrypt.hash(password, 10);
+      const user = this.userRepo.create({ email: uniqueEmail, passwordHash, name, agencyId, role: 'client' });
+      return this.userRepo.save(user);
+    }
 
     const passwordHash = await bcrypt.hash(password, 10);
     const user = this.userRepo.create({ email, passwordHash, name, agencyId, role: 'client' });
