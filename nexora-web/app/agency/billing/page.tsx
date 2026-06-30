@@ -4,6 +4,7 @@ import { useQuery, useMutation } from '@tanstack/react-query';
 import { apiFetch } from '@/lib/api';
 import { useRouter } from 'next/navigation';
 import type { PlanLimits } from '@/lib/types/shared';
+import { PLAN_FEATURES, getPlanLabel, getPlanPrice } from '@/lib/plans';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -12,22 +13,6 @@ type UsageResponse = {
   plan: string;
   limits: PlanLimits;
   usage: { projects: number; keywords: number; auditsThisMonth: number; keywordSearchesToday: number; };
-};
-
-const PLAN_FEATURES: Record<string, { label: string; free: string; pro: string; agency: string }[]> = {
-  general: [
-    { label: 'Projets', free: '1', pro: '5', agency: '20' },
-    { label: 'Mots-clés par projet', free: '20', pro: '500', agency: '5 000' },
-    { label: 'Pages par audit', free: '100', pro: '500', agency: '2 000' },
-    { label: 'Audits par mois', free: '1', pro: '10', agency: 'Illimité' },
-    { label: 'Concurrents par projet', free: '1', pro: '5', agency: '10' },
-    { label: 'Recherches / jour', free: '5', pro: '50', agency: '500' },
-  ],
-  data: [
-    { label: 'Rétention historique', free: '30 jours', pro: '180 jours', agency: '730 jours' },
-    { label: 'Export PDF', free: '✕', pro: '✓', agency: '✓' },
-    { label: 'Marque blanche', free: '✕', pro: '✕', agency: '✓' },
-  ],
 };
 
 function UsageBar({ current, max, label }: { current: number; max: number; label: string }) {
@@ -90,12 +75,11 @@ export default function AgencyBillingPage() {
         <div className="grid gap-4 sm:grid-cols-3">
           {(['free', 'pro', 'agency'] as const).map(plan => {
             const isCurrent = currentPlan === plan;
-            const price = plan === 'free' ? '0 €' : plan === 'pro' ? '39 €' : '99 €';
             return (
               <Card key={plan} className={`${isCurrent ? 'ring-2 ring-brand' : ''}`}>
                 <CardHeader>
-                  <CardTitle>{plan === 'free' ? 'Gratuit' : plan === 'pro' ? 'Pro' : 'Agence'}</CardTitle>
-                  <p className="text-2xl font-bold mt-2">{price}<span className="text-sm font-normal text-muted-foreground">/mois</span></p>
+                  <CardTitle>{getPlanLabel(plan)}</CardTitle>
+                  <p className="text-2xl font-bold mt-2">{getPlanPrice(plan)}<span className="text-sm font-normal text-muted-foreground">/mois</span></p>
                 </CardHeader>
                 <CardContent>
                   <ul className="space-y-2 text-sm">{PLAN_FEATURES.general.map(f => (<li key={f.label} className="flex justify-between"><span className="text-muted-foreground">{f.label}</span><span className="font-medium">{f[plan]}</span></li>))}</ul>

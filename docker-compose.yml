@@ -74,6 +74,7 @@ services:
       API_URL: https://${API_DOMAIN}
       ZEZE_API_KEY: ${ZEZE_API_KEY}
       ZEZE_PROJECT_ID: ${ZEZE_PROJECT_ID}
+      GROQ_API_KEY: ${GROQ_API_KEY}
     depends_on:
       postgres:
         condition: service_healthy

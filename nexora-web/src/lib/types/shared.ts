@@ -10,27 +10,6 @@ export type PlanLimits = {
   whiteLabel: boolean;
 };
 
-export const PLAN_LIMITS: Record<string, PlanLimits> = {
-  free: {
-    maxProjects: 1, maxKeywords: 20, maxPagesPerAudit: 100,
-    maxAuditsPerMonth: 1, maxCompetitorsPerProject: 1,
-    maxKeywordSearchesPerDay: 5, historyDays: 30,
-    pdfExport: false, whiteLabel: false,
-  },
-  pro: {
-    maxProjects: 5, maxKeywords: 500, maxPagesPerAudit: 500,
-    maxAuditsPerMonth: 10, maxCompetitorsPerProject: 5,
-    maxKeywordSearchesPerDay: 50, historyDays: 180,
-    pdfExport: true, whiteLabel: false,
-  },
-  agency: {
-    maxProjects: 20, maxKeywords: 5000, maxPagesPerAudit: 2000,
-    maxAuditsPerMonth: 9999, maxCompetitorsPerProject: 10,
-    maxKeywordSearchesPerDay: 500, historyDays: 730,
-    pdfExport: true, whiteLabel: true,
-  },
-};
-
 export type Project = {
   id: string;
   name: string;

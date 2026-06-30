@@ -10,6 +10,7 @@ import { Select } from '@/components/ui/select';
 import { Card, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Check } from 'lucide-react';
+import { PLANS } from '@/lib/plans';
 
 function Step1CreateAgency({ onNext }: { onNext: (agencyId: string) => void }) {
   const [name, setName] = useState('');
@@ -45,12 +46,6 @@ function Step1CreateAgency({ onNext }: { onNext: (agencyId: string) => void }) {
 function Step2ChoosePlan({ onNext }: { onNext: () => void }) {
   const [loading, setLoading] = useState('');
 
-  const plans = [
-    { id: 'free', name: 'Free', price: '0', features: ['1 projet', '20 mots-clés', '100 pages/audit', '1 audit/mois'] },
-    { id: 'pro', name: 'Pro', price: '39', features: ['5 projets', '500 mots-clés', '500 pages/audit', '10 audits/mois', 'Export PDF'] },
-    { id: 'agency', name: 'Agency', price: '99', features: ['20 projets', '5 000 mots-clés', '2 000 pages/audit', 'Audits illimités', 'Marque blanche'] },
-  ];
-
   const selectPlan = async (planId: string) => {
     if (planId === 'free') { onNext(); return; }
     setLoading(planId);
@@ -68,7 +63,7 @@ function Step2ChoosePlan({ onNext }: { onNext: () => void }) {
       <CardTitle>Choisissez votre offre</CardTitle>
       <CardDescription>Commencez gratuitement ou passez à une offre supérieure à tout moment.</CardDescription>
       <div className="grid gap-3 sm:grid-cols-3">
-        {plans.map(plan => (
+          {PLANS.map(plan => (
           <Card key={plan.id} className={`border-2 ${plan.id === 'free' ? 'border-muted' : 'border-brand/20'} hover:border-brand/50 transition-colors`}>
             <CardContent className="pt-6 text-center">
               <h3 className="font-bold text-lg">{plan.name}</h3>
