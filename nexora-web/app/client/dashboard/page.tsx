@@ -2,11 +2,35 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { apiFetch } from '@/lib/api';
-import type { ReportV2 } from '@/lib/types/shared';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import Link from 'next/link';
+
+interface Project {
+  id: string;
+  name: string;
+  domain: string;
+}
+
+interface Audit {
+  id: string;
+  projectId: string;
+  status: string;
+  score: number | null;
+  pagesCrawled: number;
+  createdAt: string;
+}
+
+interface Report {
+  id: string;
+  projectId: string;
+  seoScore: number | null;
+  aiScore: number | null;
+  growthScore: number | null;
+  periodType: string;
+  createdAt: string;
+}
 
 export default function ClientDashboardPage() {
   const { data: user, isLoading: userLoading } = useQuery({
@@ -14,13 +38,16 @@ export default function ClientDashboardPage() {
     queryFn: () => apiFetch<{ id: string; email: string; name?: string }>('/me'),
   });
 
-  const { data: reports, isLoading: reportsLoading } = useQuery({
-    queryKey: ['reports'],
-    queryFn: () => apiFetch<ReportV2[]>('/reports'),
+  const { data: dashboard, isLoading: dashLoading } = useQuery({
+    queryKey: ['client-dashboard'],
+    queryFn: () => apiFetch<{ projects: Project[]; audits: Audit[]; reports: Report[] }>('/reports/client-dashboard'),
   });
 
-  const latestReport = reports?.[0];
-  const isLoading = userLoading || reportsLoading;
+  const isLoading = userLoading || dashLoading;
+  const { projects = [], audits = [], reports = [] } = dashboard || {};
+
+  const latestAudit = audits[0];
+  const latestReport = reports[0];
 
   if (isLoading) {
     return (
@@ -50,50 +77,81 @@ export default function ClientDashboardPage() {
             <p className="text-3xl font-bold mt-1">
               {latestReport?.seoScore !== null && latestReport?.seoScore !== undefined
                 ? latestReport.seoScore
-                : '–'}
+                : latestAudit?.score !== null && latestAudit?.score !== undefined
+                  ? latestAudit.score
+                  : '–'}
             </p>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="p-6">
-            <p className="text-sm text-muted-foreground">Score IA</p>
-            <p className="text-3xl font-bold mt-1">
-              {latestReport?.aiScore !== null && latestReport?.aiScore !== undefined
-                ? latestReport.aiScore
-                : '–'}
-            </p>
+            <p className="text-sm text-muted-foreground">Projets</p>
+            <p className="text-3xl font-bold mt-1">{projects.length}</p>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="p-6">
-            <p className="text-sm text-muted-foreground">Score Croissance</p>
-            <p className="text-3xl font-bold mt-1">
-              {latestReport?.growthScore !== null && latestReport?.growthScore !== undefined
-                ? latestReport.growthScore
-                : '–'}
-            </p>
+            <p className="text-sm text-muted-foreground">Audits réalisés</p>
+            <p className="text-3xl font-bold mt-1">{audits.length}</p>
           </CardContent>
         </Card>
       </div>
 
-      <Card>
-        <CardHeader>
-          <div className="flex items-center justify-between">
-            <div>
-              <CardTitle>Rapports récents</CardTitle>
-              <CardDescription>Vos derniers rapports SEO</CardDescription>
+      {audits.length > 0 && (
+        <Card>
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <div>
+                <CardTitle>Audits récents</CardTitle>
+                <CardDescription>Vos derniers audits SEO</CardDescription>
+              </div>
+              <Link href="/client/projects" className="text-sm text-brand hover:underline">
+                Voir tout
+              </Link>
             </div>
-            <Link href="/client/reports" className="text-sm text-brand hover:underline">
-              Voir tout
-            </Link>
-          </div>
-        </CardHeader>
-        <CardContent>
-          {!reports || reports.length === 0 ? (
-            <p className="text-sm text-muted-foreground text-center py-4">
-              Aucun rapport disponible pour le moment
-            </p>
-          ) : (
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              {audits.slice(0, 5).map(audit => {
+                const project = projects.find(p => p.id === audit.projectId);
+                return (
+                  <div key={audit.id} className="flex items-center justify-between p-3 rounded-lg border">
+                    <div>
+                      <p className="text-sm font-medium">{project?.domain || project?.name || 'Projet'}</p>
+                      <p className="text-xs text-muted-foreground">
+                        {audit.pagesCrawled} pages crawlées · {new Date(audit.createdAt).toLocaleDateString('fr')}
+                      </p>
+                    </div>
+                    <div className="flex gap-2 items-center">
+                      {audit.score !== null && (
+                        <Badge variant={audit.score >= 80 ? 'success' : audit.score >= 50 ? 'warning' : 'destructive'}>
+                          Score: {audit.score}
+                        </Badge>
+                      )}
+                      <Badge variant="outline">{audit.status}</Badge>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {reports.length > 0 && (
+        <Card>
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <div>
+                <CardTitle>Rapports récents</CardTitle>
+                <CardDescription>Vos derniers rapports SEO</CardDescription>
+              </div>
+              <Link href="/client/reports" className="text-sm text-brand hover:underline">
+                Voir tout
+              </Link>
+            </div>
+          </CardHeader>
+          <CardContent>
             <div className="space-y-3">
               {reports.slice(0, 3).map(report => (
                 <div key={report.id} className="flex items-center justify-between p-3 rounded-lg border">
@@ -120,9 +178,19 @@ export default function ClientDashboardPage() {
                 </div>
               ))}
             </div>
-          )}
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+      )}
+
+      {audits.length === 0 && reports.length === 0 && (
+        <Card>
+          <CardContent className="p-8 text-center">
+            <p className="text-sm text-muted-foreground">
+              Aucun audit ou rapport disponible pour le moment. Votre agence doit d&apos;abord lancer un audit sur vos projets.
+            </p>
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 }

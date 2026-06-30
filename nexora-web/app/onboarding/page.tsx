@@ -11,7 +11,38 @@ import { Card, CardTitle, CardDescription, CardContent } from '@/components/ui/c
 import { Badge } from '@/components/ui/badge';
 import { Check } from 'lucide-react';
 
-function Step0ChoosePlan({ onNext }: { onNext: () => void }) {
+function Step1CreateAgency({ onNext }: { onNext: (agencyId: string) => void }) {
+  const [name, setName] = useState('');
+  const [error, setError] = useState('');
+
+  const createMutation = useMutation({
+    mutationFn: () => apiFetch<{ id: string }>('/agencies', {
+      method: 'POST',
+      body: JSON.stringify({ name }),
+    }),
+    onSuccess: (data) => onNext(data.id),
+    onError: (e: ApiError) => setError(e.message),
+  });
+
+  return (
+    <div className="space-y-4">
+      <CardTitle>Créez votre agence</CardTitle>
+      <CardDescription>Donnez un nom à votre agence pour commencer.</CardDescription>
+      {error && <div className="bg-destructive/10 text-destructive text-sm rounded-md p-3">{error}</div>}
+      <div>
+        <label className="block text-sm font-medium mb-1.5">Nom de l&apos;agence</label>
+        <Input value={name} onChange={e => setName(e.target.value)} placeholder="Mon Agence SEO" />
+      </div>
+      <div className="flex gap-2 pt-2">
+        <Button onClick={() => createMutation.mutate()} disabled={!name || createMutation.isPending}>
+          {createMutation.isPending ? 'Création...' : 'Continuer'}
+        </Button>
+      </div>
+    </div>
+  );
+}
+
+function Step2ChoosePlan({ onNext }: { onNext: () => void }) {
   const [loading, setLoading] = useState('');
 
   const plans = [
@@ -26,7 +57,7 @@ function Step0ChoosePlan({ onNext }: { onNext: () => void }) {
     try {
       const data = await apiFetch<{ url: string }>('/billing/create-checkout-session', {
         method: 'POST',
-        body: JSON.stringify({ plan: planId, success_url: `${window.location.origin}/onboarding?step=2` }),
+        body: JSON.stringify({ plan: planId, success_url: `${window.location.origin}/onboarding?step=3` }),
       });
       window.location.href = data.url;
     } catch { setLoading(''); }
@@ -63,7 +94,7 @@ function Step0ChoosePlan({ onNext }: { onNext: () => void }) {
   );
 }
 
-function Step1CreateProject({ onNext, onSkip, setProjectId }: { onNext: () => void; onSkip: () => void; setProjectId: (id: string) => void }) {
+function Step3CreateProject({ onNext, onSkip, setProjectId }: { onNext: () => void; onSkip: () => void; setProjectId: (id: string) => void }) {
   const [name, setName] = useState('');
   const [domain, setDomain] = useState('');
   const [countryCode, setCountryCode] = useState('FR');
@@ -120,7 +151,7 @@ function Step1CreateProject({ onNext, onSkip, setProjectId }: { onNext: () => vo
   );
 }
 
-function Step2AddKeywords({ projectId, onNext, onSkip }: { projectId: string; onNext: () => void; onSkip: () => void }) {
+function Step4AddKeywords({ projectId, onNext, onSkip }: { projectId: string; onNext: () => void; onSkip: () => void }) {
   const [keywordsText, setKeywordsText] = useState('');
   const [country, setCountry] = useState('FR');
   const [language, setLanguage] = useState('fr');
@@ -184,7 +215,7 @@ function Step2AddKeywords({ projectId, onNext, onSkip }: { projectId: string; on
   );
 }
 
-function Step3LaunchAudit({ projectId }: { projectId: string }) {
+function Step5LaunchAudit({ projectId }: { projectId: string }) {
   const router = useRouter();
   const queryClient = useQueryClient();
   const [error, setError] = useState('');
@@ -235,6 +266,7 @@ export default function OnboardingPage() {
   const router = useRouter();
   const queryClient = useQueryClient();
   const [step, setStep] = useState(1);
+  const [agencyId, setAgencyId] = useState('');
   const [projectId, setProjectId] = useState('');
 
   useEffect(() => {
@@ -252,7 +284,7 @@ export default function OnboardingPage() {
   return (
     <div className="max-w-3xl mx-auto py-16">
       <div className="flex items-center justify-center gap-2 mb-8">
-        {[1, 2, 3, 4].map(s => (
+        {[1, 2, 3, 4, 5].map(s => (
           <div key={s} className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-medium transition-colors ${s <= step ? 'bg-brand text-white' : 'bg-muted text-muted-foreground'}`}>
             {s}
           </div>
@@ -260,10 +292,11 @@ export default function OnboardingPage() {
       </div>
       <Card className="border">
         <CardContent className="pt-6">
-          {step === 1 && <Step0ChoosePlan onNext={() => setStep(2)} />}
-          {step === 2 && <Step1CreateProject onNext={() => setStep(3)} onSkip={completeAndRedirect} setProjectId={setProjectId} />}
-          {step === 3 && projectId && <Step2AddKeywords projectId={projectId} onNext={() => setStep(4)} onSkip={completeAndRedirect} />}
-          {step === 4 && projectId && <Step3LaunchAudit projectId={projectId} />}
+          {step === 1 && <Step1CreateAgency onNext={(id) => { setAgencyId(id); setStep(2); }} />}
+          {step === 2 && <Step2ChoosePlan onNext={() => setStep(3)} />}
+          {step === 3 && <Step3CreateProject onNext={() => setStep(4)} onSkip={completeAndRedirect} setProjectId={setProjectId} />}
+          {step === 4 && projectId && <Step4AddKeywords projectId={projectId} onNext={() => setStep(5)} onSkip={completeAndRedirect} />}
+          {step === 5 && projectId && <Step5LaunchAudit projectId={projectId} />}
         </CardContent>
       </Card>
     </div>

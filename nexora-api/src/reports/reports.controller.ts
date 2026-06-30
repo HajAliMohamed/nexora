@@ -14,6 +14,7 @@ import { Repository, In } from 'typeorm';
 import { Report } from './entities/report.entity';
 import { Project } from '../projects/entities/project.entity';
 import { ClientUser } from '../clients/entities/client-user.entity';
+import { SiteAudit } from '../audits/entities/site-audit.entity';
 import { GenerateReportDto } from './dto/generate-report.dto';
 import { emailFetch } from '../common/email.utils';
 
@@ -35,6 +36,8 @@ export class ReportsController {
     private readonly projectRepo: Repository<Project>,
     @InjectRepository(ClientUser)
     private readonly clientRepo: Repository<ClientUser>,
+    @InjectRepository(SiteAudit)
+    private readonly auditRepo: Repository<SiteAudit>,
   ) {}
 
   @Get()
@@ -59,6 +62,39 @@ export class ReportsController {
       where: { projectId: In(allProjectIds) },
       order: { createdAt: 'DESC' },
     });
+  }
+
+  @Get('client-dashboard')
+  async clientDashboard(@Req() req: Request) {
+    const userId = (req as any).user.id;
+    const email = (req as any).user.email;
+
+    const ownedProjects = await this.projectRepo.find({ where: { userId } });
+    const ownedIds = ownedProjects.map(p => p.id);
+
+    const clientUser = await this.clientRepo.findOne({ where: { email } });
+    let clientProjectIds: string[] = [];
+    if (clientUser?.id) {
+      const clientProjects = await this.projectRepo.find({ where: { clientId: clientUser.id } });
+      clientProjectIds = clientProjects.map(p => p.id);
+    }
+
+    const allProjectIds = [...new Set([...ownedIds, ...clientProjectIds])];
+    if (allProjectIds.length === 0) return { projects: [], audits: [], reports: [] };
+
+    const projects = await this.projectRepo.find({ where: { id: In(allProjectIds) } });
+
+    const audits = await this.auditRepo.find({
+      where: { projectId: In(allProjectIds), status: 'completed' },
+      order: { createdAt: 'DESC' },
+    });
+
+    const reports = await this.reportRepo.find({
+      where: { projectId: In(allProjectIds) },
+      order: { createdAt: 'DESC' },
+    });
+
+    return { projects, audits, reports };
   }
 
   @Get('audit/:auditId/pdf')
