@@ -71,6 +71,9 @@ services:
       STRIPE_AGENCY_PRICE_ID: ${STRIPE_AGENCY_PRICE_ID:?STRIPE_AGENCY_PRICE_ID is required}
       ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@nexora.io}
       ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+      API_URL: https://${API_DOMAIN}
+      ZEZE_API_KEY: ${ZEZE_API_KEY}
+      ZEZE_PROJECT_ID: ${ZEZE_PROJECT_ID}
     depends_on:
       postgres:
         condition: service_healthy

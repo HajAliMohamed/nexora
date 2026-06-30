@@ -1,0 +1,6 @@
+allowBuilds:
+  puppeteer: true
+  "@sentry/profiling-node": true
+  "@sentry-internal/node-cpu-profiler": true
+  msgpackr-extract: true
+  unrs-resolver: true
