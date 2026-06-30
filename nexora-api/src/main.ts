@@ -23,6 +23,9 @@ async function bootstrap() {
   app.enableCors({
     origin: configService.get('FRONTEND_URL'),
     credentials: true,
+    methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    maxAge: 86400,
   });
 
   app.use(cookieParser());

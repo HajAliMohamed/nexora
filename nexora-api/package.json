@@ -46,8 +46,16 @@
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
     "stripe": "^17.0.0",
-    "typeorm": "^0.3.21",
-    "undici": "^8.5.0"
+    "typeorm": "^0.3.21"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "puppeteer",
+      "@sentry/profiling-node",
+      "@sentry-internal/node-cpu-profiler",
+      "msgpackr-extract",
+      "unrs-resolver"
+    ]
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",
