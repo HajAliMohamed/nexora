@@ -3,7 +3,7 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, In } from 'typeorm';
+import { Repository, In, IsNull } from 'typeorm';
 import * as bcrypt from 'bcryptjs';
 import { emailFetch } from '../common/email.utils';
 import { Agency } from './entities/agency.entity';
@@ -48,6 +48,11 @@ export class AgenciesService {
       userId: ownerUserId,
       role: 'owner',
     });
+
+    await this.projectRepo.update(
+      { userId: ownerUserId, agencyId: IsNull() },
+      { agencyId: agency.id },
+    );
 
     return agency;
   }
