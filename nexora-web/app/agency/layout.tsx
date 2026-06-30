@@ -117,7 +117,7 @@ export default function AgencyLayout({ children }: { children: React.ReactNode }
 
   if (!user) return null;
 
-  if (!agenciesLoading && (!agencies || agencies.length === 0)) {
+  if (!agenciesLoading && (!agencies || agencies.length === 0) && !user?.onboardingComplete) {
     return (
       <div className="flex flex-1 items-center justify-center">
         <div className="text-center space-y-4 max-w-sm">

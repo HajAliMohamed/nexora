@@ -94,7 +94,7 @@ function Step2ChoosePlan({ onNext }: { onNext: () => void }) {
   );
 }
 
-function Step3CreateProject({ onNext, onSkip, setProjectId }: { onNext: () => void; onSkip: () => void; setProjectId: (id: string) => void }) {
+function Step3CreateProject({ agencyId, onNext, onSkip, setProjectId }: { agencyId: string; onNext: () => void; onSkip: () => void; setProjectId: (id: string) => void }) {
   const [name, setName] = useState('');
   const [domain, setDomain] = useState('');
   const [countryCode, setCountryCode] = useState('FR');
@@ -102,7 +102,7 @@ function Step3CreateProject({ onNext, onSkip, setProjectId }: { onNext: () => vo
   const [error, setError] = useState('');
 
   const createMutation = useMutation({
-    mutationFn: () => apiFetch<{ id: string }>('/projects', {
+    mutationFn: () => apiFetch<{ id: string }>(`/agencies/${agencyId}/projects`, {
       method: 'POST',
       body: JSON.stringify({ name, domain, countryCode, languageCode }),
     }),
@@ -230,7 +230,7 @@ function Step5LaunchAudit({ projectId }: { projectId: string }) {
     onSuccess: async () => {
       await apiFetch('/me/onboarding-complete', { method: 'PATCH' });
       queryClient.invalidateQueries({ queryKey: ['me'] });
-      router.push(`/agency/projects/${projectId}`);
+      router.push('/agency/dashboard');
     },
     onError: (e: ApiError) => setError(e.message),
   });
@@ -294,7 +294,7 @@ export default function OnboardingPage() {
         <CardContent className="pt-6">
           {step === 1 && <Step1CreateAgency onNext={(id) => { setAgencyId(id); setStep(2); }} />}
           {step === 2 && <Step2ChoosePlan onNext={() => setStep(3)} />}
-          {step === 3 && <Step3CreateProject onNext={() => setStep(4)} onSkip={completeAndRedirect} setProjectId={setProjectId} />}
+          {step === 3 && <Step3CreateProject agencyId={agencyId} onNext={() => setStep(4)} onSkip={completeAndRedirect} setProjectId={setProjectId} />}
           {step === 4 && projectId && <Step4AddKeywords projectId={projectId} onNext={() => setStep(5)} onSkip={completeAndRedirect} />}
           {step === 5 && projectId && <Step5LaunchAudit projectId={projectId} />}
         </CardContent>
