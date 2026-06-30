@@ -6,12 +6,34 @@ export class ApiError extends Error {
   }
 }
 
+async function attemptRefresh(): Promise<boolean> {
+  try {
+    const res = await fetch(`${API_URL}/auth/refresh`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+    });
+    return res.ok;
+  } catch {
+    return false;
+  }
+}
+
 export async function apiFetch<T>(path: string, options: RequestInit = {}): Promise<T> {
-  const res = await fetch(`${API_URL}${path}`, {
+  const opts: RequestInit = {
     ...options,
     credentials: 'include',
     headers: { 'Content-Type': 'application/json', ...options.headers },
-  });
+  };
+
+  let res = await fetch(`${API_URL}${path}`, opts);
+
+  if (res.status === 401) {
+    const refreshed = await attemptRefresh();
+    if (refreshed) {
+      res = await fetch(`${API_URL}${path}`, opts);
+    }
+  }
 
   if (!res.ok) {
     const body = await res.json().catch(() => ({}));

@@ -16,6 +16,12 @@ export class Project {
   @Column()
   userId: string;
 
+  @Column({ nullable: true })
+  agencyId: string;
+
+  @Column({ nullable: true })
+  clientId: string;
+
   @Column()
   name: string;
 

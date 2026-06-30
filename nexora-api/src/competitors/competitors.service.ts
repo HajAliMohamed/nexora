@@ -1,12 +1,13 @@
-import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Competitor } from '../projects/entities/competitor.entity';
-import { Project } from '../projects/entities/project.entity';
 import { Keyword } from '../keywords/entities/keyword.entity';
 import { KeywordPosition } from '../keywords/entities/keyword-position.entity';
+import { CompetitorPosition } from './entities/competitor-position.entity';
 import { LimitsService } from '../billing/limits.service';
 import { ProjectsService } from '../projects/projects.service';
+import { SerpService } from '../serp/serp.service';
 import type { CompetitorOverview, KeywordDiffResult } from '../types/shared';
 
 const CTR_MODEL: Record<string, number> = {
@@ -24,6 +25,8 @@ function getCTR(position: number): number {
 
 @Injectable()
 export class CompetitorsService {
+  private readonly logger = new Logger(CompetitorsService.name);
+
   constructor(
     @InjectRepository(Competitor)
     private readonly competitorRepo: Repository<Competitor>,
@@ -31,8 +34,11 @@ export class CompetitorsService {
     private readonly keywordRepo: Repository<Keyword>,
     @InjectRepository(KeywordPosition)
     private readonly positionRepo: Repository<KeywordPosition>,
+    @InjectRepository(CompetitorPosition)
+    private readonly compPosRepo: Repository<CompetitorPosition>,
     private readonly limitsService: LimitsService,
     private readonly projectsService: ProjectsService,
+    private readonly serpService: SerpService,
   ) {}
 
   async listCompetitors(projectId: string): Promise<Competitor[]> {
@@ -50,6 +56,47 @@ export class CompetitorsService {
     const competitor = await this.competitorRepo.findOne({ where: { id } });
     if (!competitor) throw new NotFoundException('Concurrent introuvable');
     await this.competitorRepo.remove(competitor);
+  }
+
+  async refreshPositions(projectId: string): Promise<void> {
+    const competitors = await this.competitorRepo.find({ where: { projectId } });
+    if (competitors.length === 0) return;
+
+    const keywords = await this.keywordRepo.find({ where: { projectId } });
+    if (keywords.length === 0) return;
+
+    const project = await this.projectsService.findById(projectId);
+    if (!project) return;
+
+    const languageCode = project.languageCode || 'fr';
+    const countryCode = project.countryCode || 'FR';
+
+    const entries: Partial<CompetitorPosition>[] = [];
+
+    for (const competitor of competitors) {
+      const cleanDomain = competitor.domain.replace(/^https?:\/\//, '').replace(/\/.*$/, '');
+
+      for (const kw of keywords) {
+        const result = await this.serpService.getRanking({
+          keyword: kw.keyword,
+          domain: cleanDomain,
+          countryCode,
+          languageCode,
+          device: 'desktop',
+        });
+
+        entries.push({
+          competitorId: competitor.id,
+          keywordId: kw.id,
+          position: result.position,
+          url: result.url ?? null,
+        });
+      }
+    }
+
+    if (entries.length > 0) {
+      await this.compPosRepo.save(entries);
+    }
   }
 
   async getOverview(projectId: string): Promise<CompetitorOverview> {
@@ -70,20 +117,35 @@ export class CompetitorsService {
       }
     }
 
+    const competitorData = await Promise.all(
+      competitors.map(async (c) => {
+        const positions = await this.compPosRepo.find({
+          where: { competitorId: c.id },
+        });
+
+        const top10 = positions.filter(p => p.position != null && p.position <= 10);
+        const traffic = top10.reduce((sum, p) => sum + 100 * getCTR(p.position!), 0);
+
+        return {
+          id: c.id,
+          domain: c.domain,
+          keywordsTop10: top10.length,
+          estimatedTraffic: Math.round(traffic),
+        };
+      }),
+    );
+
     return {
       projectKeywordsTop10,
       projectEstimatedTraffic: Math.round(projectEstimatedTraffic),
-      competitors: competitors.map(c => ({
-        id: c.id,
-        domain: c.domain,
-        keywordsTop10: 0,
-        estimatedTraffic: 0,
-      })),
+      competitors: competitorData,
     };
   }
 
   async getKeywordsDiff(projectId: string): Promise<KeywordDiffResult[]> {
     const keywords = await this.keywordRepo.find({ where: { projectId } });
+    const competitors = await this.competitorRepo.find({ where: { projectId } });
+
     const results: KeywordDiffResult[] = [];
 
     for (const kw of keywords) {
@@ -91,10 +153,21 @@ export class CompetitorsService {
         where: { keywordId: kw.id },
         order: { date: 'DESC' },
       });
+
+      const competitorPositions = await Promise.all(
+        competitors.map(async (c) => {
+          const cp = await this.compPosRepo.findOne({
+            where: { competitorId: c.id, keywordId: kw.id },
+            order: { date: 'DESC' },
+          });
+          return { domain: c.domain, position: cp?.position ?? null };
+        }),
+      );
+
       results.push({
         keyword: kw.keyword,
         yourPosition: latestPos?.position ?? null,
-        competitorPositions: [],
+        competitorPositions,
       });
     }
 

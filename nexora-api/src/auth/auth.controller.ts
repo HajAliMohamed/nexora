@@ -11,7 +11,7 @@ import { ForgotPasswordDto, ResetPasswordDto } from './dto/reset-password.dto';
 const COOKIE_OPTIONS = (isProduction: boolean) => ({
   httpOnly: true,
   secure: isProduction,
-  sameSite: 'lax' as const,
+  sameSite: (isProduction ? 'none' : 'lax') as 'none' | 'lax',
   path: '/',
 });
 
@@ -61,8 +61,9 @@ export class AuthController {
   ) {
     const token = req.cookies?.refresh_token;
     if (token) await this.authService.logout(token);
-    res.clearCookie('access_token', { path: '/' });
-    res.clearCookie('refresh_token', { path: '/' });
+    const isProd = process.env.NODE_ENV === 'production';
+    res.clearCookie('access_token', { path: '/', sameSite: isProd ? 'none' : 'lax', secure: isProd });
+    res.clearCookie('refresh_token', { path: '/', sameSite: isProd ? 'none' : 'lax', secure: isProd });
     return { message: 'Logged out' };
   }
 

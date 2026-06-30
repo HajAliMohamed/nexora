@@ -15,7 +15,7 @@ export class KeywordResearchService {
     private readonly configService: ConfigService,
     private readonly limitsService: LimitsService,
   ) {
-    this.provider = this.configService.get('KEYWORDS_PROVIDER', 'mock');
+    this.provider = this.configService.get('KEYWORDS_PROVIDER', 'autocomplete');
   }
 
   async search(params: {
@@ -41,10 +41,8 @@ export class KeywordResearchService {
     let results: KeywordResearchResult[];
     if (this.provider === 'dataforseo') {
       results = await this.searchDataForSeo(params);
-    } else if (this.provider === 'autocomplete') {
-      results = await this.searchAutocomplete(params);
     } else {
-      results = this.searchMock(params);
+      results = await this.searchAutocomplete(params);
     }
 
     const pipeline = this.redis.pipeline();
@@ -70,8 +68,8 @@ export class KeywordResearchService {
     const login = this.configService.get('KEYWORDS_API_LOGIN');
     const password = this.configService.get('KEYWORDS_API_PASSWORD');
     if (!login || !password) {
-      this.logger.warn('KEYWORDS_API_LOGIN/PASSWORD not configured, falling back to mock');
-      return this.searchMock(params);
+      this.logger.warn('KEYWORDS_API_LOGIN/PASSWORD not configured');
+      return [];
     }
 
     const auth = Buffer.from(`${login}:${password}`).toString('base64');
@@ -106,7 +104,7 @@ export class KeywordResearchService {
       return allKeywords.slice(0, 20);
     } catch (error) {
       this.logger.error(`DataForSEO keyword research error: ${(error as Error).message}`);
-      return this.searchMock(params);
+      return [];
     }
   }
 
@@ -116,55 +114,23 @@ export class KeywordResearchService {
     try {
       const url = `https://suggestqueries.google.com/complete/search?client=firefox&q=${encodeURIComponent(params.query)}&hl=${params.languageCode}&gl=${params.countryCode}`;
       const res = await fetch(url, { signal: AbortSignal.timeout(5000) });
-      if (!res.ok) return this.searchMock(params);
+      if (!res.ok) return [];
 
       const body = await res.json();
       const suggestions: string[] = (body[1] || []).map((item: any) => typeof item === 'string' ? item : item[0]);
 
-      if (suggestions.length === 0) return this.searchMock(params);
+      if (suggestions.length === 0) return [];
 
-      return suggestions.map((kw, i) => ({
+      return suggestions.map((kw) => ({
         keyword: kw,
-        volume: Math.max(0, Math.floor(Math.random() * 8000) + (10 - Math.min(i, 10)) * 100),
-        cpc: Math.round(Math.random() * 8 * 100) / 100,
-        difficulty: Math.min(100, Math.floor(Math.random() * 70) + i * 2),
-        competition: Math.round(Math.random() * 100) / 100,
+        volume: 0,
+        cpc: 0,
+        difficulty: 0,
+        competition: 0,
       }));
     } catch {
-      return this.searchMock(params);
+      return [];
     }
-  }
-
-  private searchMock(params: { query: string }): KeywordResearchResult[] {
-    const baseWords = [
-      params.query,
-      `${params.query} tools`,
-      `${params.query} software`,
-      `best ${params.query}`,
-      `${params.query} free`,
-      `${params.query} pricing`,
-      `${params.query} review`,
-      `${params.query} for beginners`,
-      `${params.query} agency`,
-      `${params.query} services`,
-      `advanced ${params.query}`,
-      `${params.query} guide`,
-      `${params.query} alternative`,
-      `${params.query} vs`,
-      `${params.query} tutorial`,
-      `${params.query} online`,
-      `${params.query} for small business`,
-      `${params.query} 2026`,
-      `${params.query} features`,
-      `${params.query} comparison`,
-    ];
-    return baseWords.map((kw, i) => ({
-      keyword: kw,
-      volume: Math.max(0, Math.floor(Math.random() * 8000) + (10 - i) * 100),
-      cpc: Math.round(Math.random() * 8 * 100) / 100,
-      difficulty: Math.min(100, Math.floor(Math.random() * 70) + i * 2),
-      competition: Math.round(Math.random() * 100) / 100,
-    }));
   }
 
   private mapCountryToLocation(code: string): number {

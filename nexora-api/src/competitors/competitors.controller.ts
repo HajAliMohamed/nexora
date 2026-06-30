@@ -40,4 +40,10 @@ export class CompetitorsController {
   getKeywordsDiff(@Param('projectId') projectId: string) {
     return this.competitorsService.getKeywordsDiff(projectId);
   }
+
+  @Post('refresh')
+  async refreshPositions(@Param('projectId') projectId: string) {
+    await this.competitorsService.refreshPositions(projectId);
+    return { message: 'Positions concurrentielles mises à jour' };
+  }
 }

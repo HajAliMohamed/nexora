@@ -39,10 +39,21 @@ export class ProjectsOverviewService {
   private async fetchLastAudit(projectId: string) {
     try {
       const audits = await this.auditsService.listAuditsForProject(projectId);
-      const done = audits.filter(a => a.status === 'done');
-      if (done.length === 0) return null;
+      if (audits.length === 0) return null;
 
-      const latest = done[0];
+      const latest = audits[0];
+      if (latest.status === 'pending' || latest.status === 'running') {
+        return {
+          id: latest.id,
+          scoreGlobal: 0,
+          categories: {},
+          issuesCount: 0,
+          pagesCrawled: latest.pagesCrawled,
+          createdAt: latest.createdAt.toISOString(),
+          status: latest.status,
+        };
+      }
+
       const issues = await this.auditsService.getAuditIssues(latest.id);
       return {
         id: latest.id,

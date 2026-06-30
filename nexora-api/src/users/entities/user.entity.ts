@@ -1,5 +1,5 @@
 import {
-  Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, OneToMany,
+  Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, OneToMany, ManyToOne, JoinColumn,
 } from 'typeorm';
 import { Session } from '../../auth/entities/session.entity';
 import { Subscription } from '../../billing/entities/subscription.entity';
@@ -21,6 +21,12 @@ export class User {
 
   @Column({ default: false })
   onboardingComplete: boolean;
+
+  @Column({ nullable: true })
+  agencyId: string;
+
+  @Column({ default: 'user' })
+  role: 'user' | 'owner' | 'admin' | 'member' | 'client';
 
   @CreateDateColumn()
   createdAt: Date;

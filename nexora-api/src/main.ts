@@ -1,3 +1,4 @@
+import dns from 'node:dns';
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
@@ -5,6 +6,8 @@ import cookieParser from 'cookie-parser';
 import * as Sentry from '@sentry/nestjs';
 import { AppModule } from './app.module';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
+
+dns.setDefaultResultOrder('ipv4first');
 
 async function bootstrap() {
   Sentry.init({
@@ -14,6 +17,7 @@ async function bootstrap() {
   });
 
   const app = await NestFactory.create(AppModule, { rawBody: true });
+  app.getHttpAdapter().getInstance().set('trust proxy', 1);
   const configService = app.get(ConfigService);
 
   app.enableCors({

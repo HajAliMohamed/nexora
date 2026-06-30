@@ -156,3 +156,78 @@ export type SeoAlert = {
   createdAt: string;
   readAt: string | null;
 };
+
+// V2 Types - Agence Reports
+
+export type Agency = {
+  id: string;
+  name: string;
+  slug: string;
+  logoUrl: string | null;
+  primaryColor: string;
+  secondaryColor: string;
+  customDomain: string | null;
+  ownerUserId: string;
+  createdAt: string;
+};
+
+export type AgencyMember = {
+  id: string;
+  agencyId: string;
+  userId: string;
+  role: 'owner' | 'admin' | 'member';
+  user?: { id: string; email: string; name: string | null };
+  createdAt: string;
+};
+
+export type ClientUser = {
+  id: string;
+  agencyId: string;
+  name: string | null;
+  email: string;
+  active: boolean;
+  createdAt: string;
+};
+
+export type Brand = {
+  id: string;
+  agencyId: string;
+  name: string;
+  logoUrl: string | null;
+  colors: Record<string, string>;
+  domain: string | null;
+  createdAt: string;
+};
+
+export type AiSearchData = {
+  visibilityScore: number;
+  snapshots: { id: string; prompt: string; present: boolean; source: string }[];
+  opportunities: { prompt: string; source: string }[];
+};
+
+export type GrowthData = {
+  pages: { url: string; delta: number; status: string }[];
+  keywords: { keyword: string; position: number; change: number }[];
+  backlinks: { source: string; impact: number; type: string }[];
+  potentialScore: number;
+};
+
+export type ReportV2 = {
+  id: string;
+  projectId: string;
+  periodType: 'weekly' | 'monthly' | 'quarterly';
+  seoScore: number | null;
+  aiScore: number | null;
+  growthScore: number | null;
+  narrative: string | null;
+  recommendations: { title: string; description: string; priority: string; impact: string }[];
+  scores: Record<string, number>;
+  pdfPath: string | null;
+  signedUrl: string | null;
+  createdAt: string;
+};
+
+export type AssistantResponse = {
+  answer: string;
+  context: Record<string, unknown>;
+};

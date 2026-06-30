@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiFetch, ApiError } from '@/lib/api';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -10,6 +10,7 @@ import { Input } from '@/components/ui/input';
 
 export default function SignupPage() {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -21,7 +22,11 @@ export default function SignupPage() {
         method: 'POST',
         body: JSON.stringify({ email, password, name: name || undefined }),
       }),
-    onSuccess: () => router.push('/dashboard'),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['me-auth'] });
+      queryClient.invalidateQueries({ queryKey: ['me-app'] });
+      router.push('/onboarding');
+    },
     onError: (e: ApiError) => setError(e.message),
   });
 

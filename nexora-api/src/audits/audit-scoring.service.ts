@@ -23,7 +23,7 @@ const RULES: Record<string, { cat: string; impact: number }> = {
 export class AuditScoringService {
   computeExpertScore(
     issues: AuditIssue[],
-    metrics: { lighthouse?: number },
+    metrics: { lighthouse?: number | null },
   ): { global: number; categories: Record<string, number> } {
     const score: Record<string, number> = {
       technical: 30,
@@ -40,7 +40,7 @@ export class AuditScoringService {
       }
     }
 
-    if (metrics.lighthouse !== undefined) {
+    if (metrics.lighthouse != null) {
       if (metrics.lighthouse < 30) score.performance -= 10;
       else if (metrics.lighthouse < 50) score.performance -= 6;
       else if (metrics.lighthouse < 70) score.performance -= 4;

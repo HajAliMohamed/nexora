@@ -5,6 +5,12 @@ search:
   safe_search: 0
   autocomplete: 'google'
 
+doi_resolvers:
+  oadoi.org: 'https://oadoi.org/'
+  doi.org: 'https://doi.org/'
+
+default_doi_resolver: 'oadoi.org'
+
 server:
   secret_key: "nexora-searxng-secret-change-in-production"
   limiter: false

@@ -1,0 +1,325 @@
+Error: could not renew lock for job 16
+    at C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:44:51
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async LockManager.extendLocks (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:32:9)
+    at async Timeout._onTimeout (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:80:21)
+Error: could not renew lock for job 16
+    at C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:44:51
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async LockManager.extendLocks (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:32:9)
+    at async Timeout._onTimeout (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:80:21)
+Error: could not renew lock for job 16
+    at C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:44:51
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async LockManager.extendLocks (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:32:9)
+    at async Timeout._onTimeout (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:80:21)
+Error: could not renew lock for job 16
+    at C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:44:51
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async LockManager.extendLocks (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:32:9)
+    at async Timeout._onTimeout (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:80:21)
+Error: could not renew lock for job 16
+    at C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:44:51
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async LockManager.extendLocks (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:32:9)
+    at async Timeout._onTimeout (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:80:21)
+Error: could not renew lock for job 16
+    at C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:44:51
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async LockManager.extendLocks (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:32:9)
+    at async Timeout._onTimeout (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:80:21)
+Error: could not renew lock for job 16
+    at C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:44:51
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async LockManager.extendLocks (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:32:9)
+    at async Timeout._onTimeout (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:80:21)
+Error: could not renew lock for job 16
+    at C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:44:51
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async LockManager.extendLocks (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:32:9)
+    at async Timeout._onTimeout (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:80:21)
+Error: could not renew lock for job 16
+    at C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:44:51
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async LockManager.extendLocks (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:32:9)
+    at async Timeout._onTimeout (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:80:21)
+Error: could not renew lock for job 16
+    at C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:44:51
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async LockManager.extendLocks (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:32:9)
+    at async Timeout._onTimeout (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:80:21)
+Error: could not renew lock for job 16
+    at C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:44:51
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async LockManager.extendLocks (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:32:9)
+    at async Timeout._onTimeout (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:80:21)
+Error: could not renew lock for job 16
+    at C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:44:51
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async LockManager.extendLocks (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:32:9)
+    at async Timeout._onTimeout (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:80:21)
+Error: could not renew lock for job 16
+    at C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:44:51
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async LockManager.extendLocks (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:32:9)
+    at async Timeout._onTimeout (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:80:21)
+Error: could not renew lock for job 16
+    at C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:44:51
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async LockManager.extendLocks (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:32:9)
+    at async Timeout._onTimeout (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:80:21)
+Error: could not renew lock for job 16
+    at C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:44:51
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async LockManager.extendLocks (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:32:9)
+    at async Timeout._onTimeout (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:80:21)
+Error: could not renew lock for job 16
+    at C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:44:51
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async LockManager.extendLocks (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:32:9)
+    at async Timeout._onTimeout (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:80:21)
+Error: could not renew lock for job 16
+    at C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:44:51
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async LockManager.extendLocks (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:32:9)
+    at async Timeout._onTimeout (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:80:21)
+Error: could not renew lock for job 16
+    at C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:44:51
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async LockManager.extendLocks (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:32:9)
+    at async Timeout._onTimeout (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:80:21)
+Error: could not renew lock for job 16
+    at C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:44:51
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async LockManager.extendLocks (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:32:9)
+    at async Timeout._onTimeout (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:80:21)
+Error: could not renew lock for job 16
+    at C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:44:51
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async LockManager.extendLocks (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:32:9)
+    at async Timeout._onTimeout (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:80:21)
+Error: could not renew lock for job 16
+    at C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:44:51
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async LockManager.extendLocks (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:32:9)
+    at async Timeout._onTimeout (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:80:21)
+Error: could not renew lock for job 16
+    at C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:44:51
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async LockManager.extendLocks (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:32:9)
+    at async Timeout._onTimeout (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:80:21)
+Error: could not renew lock for job 16
+    at C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:44:51
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async LockManager.extendLocks (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:32:9)
+    at async Timeout._onTimeout (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:80:21)
+Error: could not renew lock for job 16
+    at C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:44:51
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async LockManager.extendLocks (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:32:9)
+    at async Timeout._onTimeout (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:80:21)
+Error: could not renew lock for job 16
+    at C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:44:51
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async LockManager.extendLocks (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:32:9)
+    at async Timeout._onTimeout (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:80:21)
+Error: could not renew lock for job 16
+    at C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:44:51
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async LockManager.extendLocks (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:32:9)
+    at async Timeout._onTimeout (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:80:21)
+Error: could not renew lock for job 16
+    at C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:44:51
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async LockManager.extendLocks (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:32:9)
+    at async Timeout._onTimeout (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:80:21)
+Error: could not renew lock for job 16
+    at C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:44:51
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async LockManager.extendLocks (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:32:9)
+    at async Timeout._onTimeout (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:80:21)
+Error: could not renew lock for job 16
+    at C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:44:51
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async LockManager.extendLocks (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:32:9)
+    at async Timeout._onTimeout (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:80:21)
+Error: could not renew lock for job 16
+    at C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:44:51
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async LockManager.extendLocks (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:32:9)
+    at async Timeout._onTimeout (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:80:21)
+Error: could not renew lock for job 16
+    at C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:44:51
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async LockManager.extendLocks (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:32:9)
+    at async Timeout._onTimeout (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:80:21)
+Error: could not renew lock for job 16
+    at C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:44:51
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async LockManager.extendLocks (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:32:9)
+    at async Timeout._onTimeout (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:80:21)
+Error: could not renew lock for job 16
+    at C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:44:51
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async LockManager.extendLocks (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:32:9)
+    at async Timeout._onTimeout (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:80:21)
+Error: could not renew lock for job 16
+    at C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:44:51
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async LockManager.extendLocks (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:32:9)
+    at async Timeout._onTimeout (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:80:21)
+Error: could not renew lock for job 16
+    at C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:44:51
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async LockManager.extendLocks (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:32:9)
+    at async Timeout._onTimeout (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:80:21)
+Error: could not renew lock for job 16
+    at C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:44:51
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async LockManager.extendLocks (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:32:9)
+    at async Timeout._onTimeout (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:80:21)
+Error: could not renew lock for job 16
+    at C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:44:51
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async LockManager.extendLocks (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:32:9)
+    at async Timeout._onTimeout (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:80:21)
+Error: could not renew lock for job 16
+    at C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:44:51
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async LockManager.extendLocks (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:32:9)
+    at async Timeout._onTimeout (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:80:21)
+Error: could not renew lock for job 16
+    at C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:44:51
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async LockManager.extendLocks (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:32:9)
+    at async Timeout._onTimeout (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:80:21)
+Error: could not renew lock for job 16
+    at C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:44:51
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async LockManager.extendLocks (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:32:9)
+    at async Timeout._onTimeout (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:80:21)
+Error: could not renew lock for job 16
+    at C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:44:51
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async LockManager.extendLocks (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:32:9)
+    at async Timeout._onTimeout (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:80:21)
+Error: could not renew lock for job 16
+    at C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:44:51
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async LockManager.extendLocks (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:32:9)
+    at async Timeout._onTimeout (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:80:21)
+Error: could not renew lock for job 16
+    at C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:44:51
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async LockManager.extendLocks (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:32:9)
+    at async Timeout._onTimeout (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:80:21)
+Error: could not renew lock for job 16
+    at C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:44:51
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async LockManager.extendLocks (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:32:9)
+    at async Timeout._onTimeout (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:80:21)
+Error: could not renew lock for job 16
+    at C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:44:51
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async LockManager.extendLocks (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:32:9)
+    at async Timeout._onTimeout (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:80:21)
+Error: could not renew lock for job 16
+    at C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:44:51
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async LockManager.extendLocks (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:32:9)
+    at async Timeout._onTimeout (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:80:21)
+Error: could not renew lock for job 16
+    at C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:44:51
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async LockManager.extendLocks (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:32:9)
+    at async Timeout._onTimeout (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:80:21)
+Error: could not renew lock for job 16
+    at C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:44:51
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async LockManager.extendLocks (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:32:9)
+    at async Timeout._onTimeout (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:80:21)
+Error: could not renew lock for job 16
+    at C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:44:51
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async LockManager.extendLocks (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:32:9)
+    at async Timeout._onTimeout (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:80:21)
+Error: could not renew lock for job 16
+    at C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:44:51
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async LockManager.extendLocks (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:32:9)
+    at async Timeout._onTimeout (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:80:21)
+Error: could not renew lock for job 16
+    at C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:44:51
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async LockManager.extendLocks (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:32:9)
+    at async Timeout._onTimeout (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:80:21)
+Error: could not renew lock for job 16
+    at C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:44:51
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async LockManager.extendLocks (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:32:9)
+    at async Timeout._onTimeout (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:80:21)
+Error: could not renew lock for job 16
+    at C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:44:51
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async LockManager.extendLocks (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:32:9)
+    at async Timeout._onTimeout (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:80:21)
+Error: could not renew lock for job 16
+    at C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:44:51
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async LockManager.extendLocks (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:32:9)
+    at async Timeout._onTimeout (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:80:21)
+Error: could not renew lock for job 16
+    at C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:44:51
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async LockManager.extendLocks (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:32:9)
+    at async Timeout._onTimeout (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:80:21)
+Error: could not renew lock for job 16
+    at C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:44:51
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async LockManager.extendLocks (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:32:9)
+    at async Timeout._onTimeout (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:80:21)
+Error: could not renew lock for job 16
+    at C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:44:51
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async LockManager.extendLocks (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:32:9)
+    at async Timeout._onTimeout (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:80:21)
+Error: could not renew lock for job 16
+    at C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:44:51
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async LockManager.extendLocks (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:32:9)
+    at async Timeout._onTimeout (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:80:21)
+Error: could not renew lock for job 16
+    at C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:44:51
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async LockManager.extendLocks (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:32:9)
+    at async Timeout._onTimeout (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:80:21)
+Error: could not renew lock for job 16
+    at C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:44:51
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async LockManager.extendLocks (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:32:9)
+    at async Timeout._onTimeout (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:80:21)
+Error: could not renew lock for job 16
+    at C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:44:51
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async LockManager.extendLocks (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:32:9)
+    at async Timeout._onTimeout (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:80:21)
+Error: could not renew lock for job 16
+    at C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:44:51
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async LockManager.extendLocks (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:32:9)
+    at async Timeout._onTimeout (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:80:21)
+Error: could not renew lock for job 16
+    at C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:44:51
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async LockManager.extendLocks (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:32:9)
+    at async Timeout._onTimeout (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\lock-manager.js:80:21)
+Error: Missing lock for job 16. retryJob
+    at Scripts.finishedErrors (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\scripts.js:1239:25)
+    at Scripts.retryJob (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\scripts.js:947:24)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\job.js:536:30
+    at async Worker.handleFailed (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\worker.js:662:28)
+    at async Worker.retryIfFailed (C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\worker.js:870:24)
+    at async C:\Users\moham\Desktop\yvan\nexora\nexora-api\node_modules\.pnpm\bullmq@5.78.1\node_modules\bullmq\dist\cjs\classes\worker.js:598:32 {
+  code: -2
+}

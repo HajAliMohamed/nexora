@@ -50,12 +50,23 @@ export class BillingController {
 
   @Post('billing/create-checkout-session')
   @UseGuards(AuthGuard)
-  async createCheckoutSession(@Req() req: Request, @Body() body: { plan: string }) {
+  async createCheckoutSession(@Req() req: Request, @Body() body: { plan: string; success_url?: string }) {
     const userId = (req as any).user.id;
     const userEmail = (req as any).user.email;
     const priceId = body.plan === 'agency'
       ? this.configService.get('STRIPE_AGENCY_PRICE_ID')
       : this.configService.get('STRIPE_PRO_PRICE_ID');
+
+    const frontendUrl = this.configService.get('FRONTEND_URL');
+    let successUrl = `${frontendUrl}/billing/success`;
+    if (body.success_url) {
+      try {
+        const parsed = new URL(body.success_url);
+        if (parsed.origin === new URL(frontendUrl).origin) {
+          successUrl = body.success_url;
+        }
+      } catch { /* use default */ }
+    }
 
     const session = await this.stripe!.checkout.sessions.create({
       mode: 'subscription',
@@ -64,8 +75,8 @@ export class BillingController {
       customer_email: userEmail,
       client_reference_id: userId,
       metadata: { userId },
-      success_url: `${this.configService.get('FRONTEND_URL')}/billing/success`,
-      cancel_url: `${this.configService.get('FRONTEND_URL')}/billing`,
+      success_url: successUrl,
+      cancel_url: `${frontendUrl}/billing`,
     });
 
     return { url: session.url! };

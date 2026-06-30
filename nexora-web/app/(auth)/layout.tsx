@@ -8,14 +8,14 @@ import { useEffect } from 'react';
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const { data, isSuccess } = useQuery({
-    queryKey: ['me'],
+    queryKey: ['me-auth'],
     queryFn: () => apiFetch<{ id: string }>('/me'),
     retry: false,
   });
 
   useEffect(() => {
     if (isSuccess && data) {
-      router.replace('/dashboard');
+      router.replace('/agency/dashboard');
     }
   }, [isSuccess, data, router]);
 

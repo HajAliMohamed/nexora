@@ -30,6 +30,15 @@ export class UsersService {
     return this.userRepo.save(user);
   }
 
+  async createAsClient(email: string, password: string, name?: string, agencyId?: string): Promise<User> {
+    const existing = await this.findByEmail(email);
+    if (existing) return existing;
+
+    const passwordHash = await bcrypt.hash(password, 10);
+    const user = this.userRepo.create({ email, passwordHash, name, agencyId, role: 'client' });
+    return this.userRepo.save(user);
+  }
+
   async updateOnboarding(id: string, complete: boolean): Promise<void> {
     await this.userRepo.update(id, { onboardingComplete: complete });
   }

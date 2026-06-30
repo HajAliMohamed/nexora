@@ -1,13 +1,15 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import * as cheerio from 'cheerio';
 
 @Injectable()
 export class SerpService {
   private readonly logger = new Logger(SerpService.name);
   private readonly provider: string;
+  private browser: any = null;
 
   constructor(private readonly configService: ConfigService) {
-    this.provider = this.configService.get('SERP_PROVIDER', 'dataforseo');
+    this.provider = this.configService.get('SERP_PROVIDER', 'google');
   }
 
   async getRanking(params: {
@@ -20,12 +22,87 @@ export class SerpService {
     try {
       switch (this.provider) {
         case 'serpapi': return this.getFromSerpApi(params);
-        case 'searxng': return this.getFromSearxng(params);
+        case 'searxng': return this.getFromGoogle(params);
+        case 'google': return this.getFromGoogle(params);
         default: return this.getFromDataForSeo(params);
       }
     } catch (error) {
       this.logger.error(`SERP API error for "${params.keyword}": ${(error as Error).message}`);
       return { position: null };
+    } finally {
+      await this.closeBrowser();
+    }
+  }
+
+  private async getBrowser(): Promise<any> {
+    if (this.browser) return this.browser;
+    const { default: puppeteer } = await import('puppeteer');
+    const envPath = this.configService.get('PUPPETEER_EXECUTABLE_PATH');
+    this.browser = await puppeteer.launch({
+      headless: true,
+      executablePath: envPath || undefined,
+      args: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--disable-dev-shm-usage',
+        '--disable-blink-features=AutomationControlled',
+      ],
+    });
+    return this.browser;
+  }
+
+  private async closeBrowser(): Promise<void> {
+    if (this.browser) {
+      try { await this.browser.close(); } catch { /* ignore */ }
+      this.browser = null;
+    }
+  }
+
+  private async getFromGoogle(params: {
+    keyword: string; domain: string; countryCode: string; languageCode: string;
+  }): Promise<{ position: number | null; url?: string }> {
+    let page: any = null;
+    try {
+      const browser = await this.getBrowser();
+      page = await browser.newPage();
+      await page.evaluateOnNewDocument(() => {
+        Object.defineProperty(navigator, 'webdriver', { get: () => false });
+      });
+      await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36');
+      await page.setViewport({ width: 1920, height: 1080 });
+      await page.setExtraHTTPHeaders({ 'Accept-Language': 'fr-FR,fr;q=0.9,en;q=0.8' });
+      await page.goto(
+        `https://www.google.com/search?q=${encodeURIComponent(params.keyword)}&hl=${params.languageCode}&gl=${params.countryCode}&num=50`,
+        { waitUntil: 'networkidle2', timeout: 20000 },
+      );
+      const html = await page.content();
+      const $ = cheerio.load(html);
+
+      const domain = params.domain.replace(/^https?:\/\//, '').replace(/\/.*$/, '');
+      let position = 0;
+
+      const results: { url: string; position: number }[] = [];
+      $('div.MjjYud').each((_, el) => {
+        position++;
+        const link = $(el).find('a').first();
+        const href = link.attr('href');
+        if (href && href.startsWith('http')) {
+          results.push({ url: href, position });
+        }
+      });
+
+      for (const item of results) {
+        if (item.url.includes(domain)) {
+          return { position: item.position, url: item.url };
+        }
+      }
+
+      return { position: null };
+    } catch (err) {
+      this.logger.warn(`Google scrape failed for "${params.keyword}": ${(err as Error).message}`);
+      return { position: null };
+    } finally {
+      if (page) await page.close().catch(() => {});
     }
   }
 
@@ -35,8 +112,8 @@ export class SerpService {
     const login = this.configService.get('SERP_API_LOGIN');
     const password = this.configService.get('SERP_API_PASSWORD');
     if (!login || !password) {
-      this.logger.warn('SERP_API_LOGIN/PASSWORD not configured, returning mock data');
-      return { position: Math.floor(Math.random() * 20) + 1 };
+      this.logger.warn('SERP_API_LOGIN/PASSWORD not configured');
+      return { position: null };
     }
 
     const res = await fetch('https://api.dataforseo.com/v3/serp/google/organic/live/advanced', {
@@ -71,8 +148,8 @@ export class SerpService {
   }): Promise<{ position: number | null; url?: string }> {
     const apiKey = this.configService.get('SERP_API_KEY');
     if (!apiKey) {
-      this.logger.warn('SERP_API_KEY not configured, returning mock data');
-      return { position: Math.floor(Math.random() * 20) + 1 };
+      this.logger.warn('SERP_API_KEY not configured');
+      return { position: null };
     }
 
     const searchParams = new URLSearchParams({
@@ -93,32 +170,6 @@ export class SerpService {
         return { position: item.position, url: item.link };
       }
     }
-    return { position: null };
-  }
-
-  private async getFromSearxng(params: {
-    keyword: string; domain: string; countryCode: string; languageCode: string;
-  }): Promise<{ position: number | null; url?: string }> {
-    const baseUrl = this.configService.get('SEARXNG_BASE_URL', 'http://localhost:8888');
-    const url = `${baseUrl}/search?q=${encodeURIComponent(params.keyword)}&format=json&language=${params.languageCode}&categories=general`;
-
-    const res = await fetch(url, { signal: AbortSignal.timeout(10000) });
-    if (!res.ok) {
-      this.logger.warn(`SearXNG returned ${res.status}, falling back`);
-      return { position: null };
-    }
-
-    const body = await res.json();
-    const results: { url: string; title: string; positions?: number[] }[] = body.results || [];
-    const domain = params.domain.replace(/^https?:\/\//, '').replace(/\/.*$/, '');
-
-    for (let i = 0; i < results.length; i++) {
-      const item = results[i];
-      if (item.url && item.url.includes(domain)) {
-        return { position: i + 1, url: item.url };
-      }
-    }
-
     return { position: null };
   }
 
