@@ -51,7 +51,7 @@ test.describe('Auth Flow', () => {
     await page.goto('/agency/dashboard');
     await page.waitForTimeout(1000);
 
-    const logoutBtn = page.locator('button:has-text("Déconnexion")');
+    const logoutBtn = page.locator('button:has-text("Se déconnecter")');
     await expect(logoutBtn).toBeVisible({ timeout: 3000 });
 
     await page.evaluate(() => fetch('http://localhost:3001/auth/logout', { method: 'POST', credentials: 'include' }));

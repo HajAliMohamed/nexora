@@ -8,21 +8,47 @@ import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import type { Agency } from '@/lib/types/shared';
+import { Search, Bell, LayoutDashboard, Sparkles, FolderKanban, Search as SearchIcon, AlertTriangle, FileText, Users, Users2, CreditCard, Settings, Menu, X } from 'lucide-react';
 
-const BASE_NAV_ITEMS: { href: string; label: string; badgeKey?: string }[] = [
-  { href: '/agency/dashboard', label: 'Tableau de bord' },
-  { href: '/agency/projects', label: 'Projets' },
-  { href: '/agency/keyword-research', label: 'Mots-clés' },
-  { href: '/agency/alerts', label: 'Alertes' },
-  { href: '/agency/reports', label: 'Rapports' },
-  { href: '/agency/assistant', label: 'Assistant' },
-  { href: '/agency/billing', label: 'Facturation' },
-  { href: '/agency/settings', label: 'Paramètres' },
-];
+type NavItem = {
+  href: string;
+  label: string;
+  icon: any;
+  badgeKey?: string;
+  requireAgency?: boolean;
+};
 
-const AGENCY_NAV_ITEMS: { href: string; label: string }[] = [
-  { href: '/agency/clients', label: 'Clients' },
-  { href: '/agency/team', label: 'Équipe' },
+type NavGroup = {
+  title: string;
+  items: NavItem[];
+};
+
+const NAV_GROUPS: NavGroup[] = [
+  {
+    title: 'Vue d\'ensemble',
+    items: [
+      { href: '/agency/dashboard', label: 'Tableau de bord', icon: LayoutDashboard },
+      { href: '/agency/assistant', label: 'Assistant IA', icon: Sparkles },
+    ]
+  },
+  {
+    title: 'Outils SEO',
+    items: [
+      { href: '/agency/projects', label: 'Projets', icon: FolderKanban },
+      { href: '/agency/keyword-research', label: 'Mots-clés', icon: SearchIcon },
+      { href: '/agency/alerts', label: 'Alertes', icon: AlertTriangle, badgeKey: 'alerts' },
+      { href: '/agency/reports', label: 'Rapports', icon: FileText },
+    ]
+  },
+  {
+    title: 'Gestion',
+    items: [
+      { href: '/agency/clients', label: 'Clients', icon: Users, requireAgency: true },
+      { href: '/agency/team', label: 'Équipe', icon: Users2, requireAgency: true },
+      { href: '/agency/billing', label: 'Facturation', icon: CreditCard },
+      { href: '/agency/settings', label: 'Paramètres', icon: Settings },
+    ]
+  }
 ];
 
 export default function AgencyLayout({ children }: { children: React.ReactNode }) {
@@ -117,11 +143,11 @@ export default function AgencyLayout({ children }: { children: React.ReactNode }
 
   if (!user) return null;
 
-  if (!agenciesLoading && (!agencies || agencies.length === 0) && !user?.onboardingComplete) {
+  if (!agenciesLoading && (!agencies || agencies.length === 0)) {
     return (
-      <div className="flex flex-1 items-center justify-center">
+      <div className="flex flex-1 items-center justify-center bg-background">
         <div className="text-center space-y-4 max-w-sm">
-          <h1 className="text-2xl font-bold tracking-tight">Bienvenue sur Nexora</h1>
+          <h1 className="text-3xl font-bold tracking-tight text-foreground">Bienvenue sur Nexora</h1>
           <p className="text-sm text-muted-foreground">
             Créez votre agence pour commencer.
           </p>
@@ -134,6 +160,7 @@ export default function AgencyLayout({ children }: { children: React.ReactNode }
               onChange={e => setNewAgencyName(e.target.value)}
               placeholder="Nom de votre agence"
               onKeyDown={e => e.key === 'Enter' && newAgencyName.trim() && createAgencyMutation.mutate(newAgencyName.trim())}
+              className="bg-surface"
             />
             <Button
               onClick={() => newAgencyName.trim() && createAgencyMutation.mutate(newAgencyName.trim())}
@@ -151,80 +178,111 @@ export default function AgencyLayout({ children }: { children: React.ReactNode }
   const isAgencyPlan = usage?.plan === 'agency';
 
   return (
-    <div className="flex h-full flex-1">
+    <div className="flex h-full flex-1 bg-background">
+      {/* Mobile Sidebar Overlay */}
       {sidebarOpen && (
         <div className="fixed inset-0 bg-black/40 z-20 md:hidden" onClick={() => setSidebarOpen(false)} />
       )}
 
-      <aside className={`fixed md:static inset-y-0 left-0 z-30 w-60 border-r flex flex-col bg-gray-50/80 backdrop-blur-sm transition-transform md:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
-        <div className="p-4 border-b flex items-center justify-between">
-          <Link href="/agency/dashboard" className="font-bold text-lg tracking-tight">
-            <span className="text-brand">Nex</span>ora
+      {/* Sidebar */}
+      <aside className={`fixed md:static inset-y-0 left-0 z-30 w-64 border-r border-border flex flex-col bg-surface transition-transform md:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+        <div className="h-16 px-6 flex items-center justify-between border-b border-border/50">
+          <Link href="/agency/dashboard" className="font-bold text-xl tracking-tight flex items-center gap-2">
+            <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-white">N</div>
+            <span>Nexora</span>
           </Link>
           <button className="md:hidden text-muted-foreground hover:text-foreground" onClick={() => setSidebarOpen(false)}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+            <X size={20} />
           </button>
         </div>
-        <nav className="flex-1 p-3 space-y-1">
-          {BASE_NAV_ITEMS.map(item => (
-            <Link
-              key={item.href}
-              href={item.href}
-              onClick={() => setSidebarOpen(false)}
-              className={`flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
-                isActive(item.href)
-                  ? 'bg-brand text-white'
-                  : 'text-muted-foreground hover:text-foreground hover:bg-accent'
-              }`}
-            >
-              <span>{item.label}</span>
-              {item.badgeKey && (unread?.count ?? 0) > 0 && (
-                <span className={`text-xs rounded-full px-2 py-0.5 font-semibold ${
-                  isActive(item.href)
-                    ? 'bg-white/20 text-white'
-                    : 'bg-brand/10 text-brand'
-                }`}>
-                  {unread?.count}
-                </span>
-              )}
-            </Link>
-          ))}
-          {isAgencyPlan && AGENCY_NAV_ITEMS.map(item => (
-            <Link
-              key={item.href}
-              href={item.href}
-              onClick={() => setSidebarOpen(false)}
-              className={`flex items-center px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
-                isActive(item.href)
-                  ? 'bg-brand text-white'
-                  : 'text-muted-foreground hover:text-foreground hover:bg-accent'
-              }`}
-            >
-              {item.label}
-            </Link>
+        
+        <nav className="flex-1 overflow-y-auto p-4 space-y-6">
+          {NAV_GROUPS.map((group, i) => (
+            <div key={i} className="space-y-1">
+              <h4 className="px-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
+                {group.title}
+              </h4>
+              {group.items.filter(item => !item.requireAgency || isAgencyPlan).map(item => {
+                const Icon = item.icon;
+                const active = isActive(item.href);
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => setSidebarOpen(false)}
+                    className={`flex items-center justify-between px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                      active
+                        ? 'bg-primary/10 text-primary'
+                        : 'text-muted-foreground hover:text-foreground hover:bg-surface-alt'
+                    }`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <Icon size={18} className={active ? 'text-primary' : 'text-muted-foreground'} />
+                      <span>{item.label}</span>
+                    </div>
+                    {item.badgeKey === 'alerts' && (unread?.count ?? 0) > 0 && (
+                      <span className={`text-xs rounded-full px-2 py-0.5 font-semibold ${
+                        active
+                          ? 'bg-primary text-white'
+                          : 'bg-destructive/10 text-destructive'
+                      }`}>
+                        {unread?.count}
+                      </span>
+                    )}
+                  </Link>
+                );
+              })}
+            </div>
           ))}
         </nav>
-        <div className="p-4 border-t space-y-2">
-          <p className="text-sm font-medium truncate px-1">{user.name || user.email}</p>
+        
+        <div className="p-4 border-t border-border/50 bg-surface">
+          <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-surface-alt transition-colors cursor-pointer">
+            <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold">
+              {user.name?.[0] || user.email[0].toUpperCase()}
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-medium text-foreground truncate">{user.name || 'Agent SEO'}</p>
+              <p className="text-xs text-muted-foreground truncate">{user.email}</p>
+            </div>
+          </div>
           <button
             onClick={() => logoutMutation.mutate()}
-            className="text-xs text-destructive hover:underline px-1"
+            className="w-full text-left px-3 py-2 mt-2 text-xs text-muted-foreground hover:text-destructive transition-colors font-medium rounded-md hover:bg-destructive/10"
           >
-            Déconnexion
+            Se déconnecter
           </button>
         </div>
       </aside>
 
-      <main className="flex-1 overflow-auto w-full">
-        <div className="md:hidden flex items-center justify-between px-4 py-3 border-b bg-background sticky top-0 z-10">
-          <h2 className="font-bold text-lg">
-            <span className="text-brand">Nex</span>ora
-          </h2>
-          <button className="p-1.5 rounded-md hover:bg-accent" onClick={() => setSidebarOpen(true)}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
-          </button>
+      {/* Main Content */}
+      <main className="flex-1 flex flex-col min-w-0 bg-background">
+        {/* Topbar */}
+        <header className="h-16 border-b border-border/50 bg-surface/50 backdrop-blur-sm sticky top-0 z-10 flex items-center justify-between px-4 md:px-8">
+          <div className="flex items-center gap-4">
+            <button className="md:hidden p-1.5 rounded-md hover:bg-surface-alt text-muted-foreground" onClick={() => setSidebarOpen(true)}>
+              <Menu size={20} />
+            </button>
+            <div className="hidden md:flex items-center text-sm text-muted-foreground bg-surface-alt/50 rounded-full px-3 py-1.5 border border-border/50">
+              <Search size={14} className="mr-2" />
+              <span>Rechercher (Cmd+K)</span>
+            </div>
+          </div>
+          <div className="flex items-center gap-4">
+            <button className="p-2 rounded-full hover:bg-surface-alt text-muted-foreground transition-colors relative">
+              <Bell size={18} />
+              {(unread?.count ?? 0) > 0 && (
+                <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-destructive border-2 border-background"></span>
+              )}
+            </button>
+          </div>
+        </header>
+        
+        <div className="flex-1 overflow-auto p-4 md:p-8">
+          <div className="max-w-7xl mx-auto">
+            {children}
+          </div>
         </div>
-        <div className="p-4 md:p-6 lg:p-8">{children}</div>
       </main>
     </div>
   );

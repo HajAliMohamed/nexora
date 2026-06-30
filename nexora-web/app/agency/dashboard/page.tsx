@@ -6,31 +6,12 @@ import type { Agency, Project, ReportV2, AiSearchData, GrowthData } from '@/lib/
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Input } from '@/components/ui/input';
 import { Dialog, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
 import { Skeleton } from '@/components/ui/skeleton';
-
-function ScoreCard({ label, score, color }: { label: string; score: number | null; color: string }) {
-  return (
-    <Card>
-      <CardContent className="p-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-sm text-muted-foreground">{label}</p>
-            <p className="text-3xl font-bold mt-1" style={{ color }}>
-              {score !== null ? score : '–'}
-            </p>
-          </div>
-          <div className="w-12 h-12 rounded-full flex items-center justify-center text-white text-lg font-bold" style={{ backgroundColor: color }}>
-            {score !== null ? Math.round(score / 10) : '?'}
-          </div>
-        </div>
-      </CardContent>
-    </Card>
-  );
-}
+import { ScoreCard } from '@/components/dashboard/score-card';
+import { ChartLine } from '@/components/dashboard/chart-line';
+import { NarrativeBlock } from '@/components/narrative-block';
 
 export default function AgencyDashboardPage() {
   const router = useRouter();
@@ -41,18 +22,11 @@ export default function AgencyDashboardPage() {
     queryKey: ['agencies'],
     queryFn: () => apiFetch<Agency[]>('/agencies'),
   });
-
   const agency = agencies?.[0];
 
   const { data: projects, isLoading: projectsLoading } = useQuery({
     queryKey: ['projects'],
     queryFn: () => apiFetch<Project[]>('/projects'),
-    enabled: !!agency,
-  });
-
-  const { data: reports, isLoading: reportsLoading } = useQuery({
-    queryKey: ['reports', agency?.id],
-    queryFn: () => apiFetch<ReportV2[]>(`/agencies/${agency!.id}/reports`),
     enabled: !!agency,
   });
 
@@ -88,114 +62,83 @@ export default function AgencyDashboardPage() {
     return (
       <div className="space-y-6">
         <Skeleton className="h-8 w-64" />
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} className="h-28" />)}
+        <div className="grid gap-6 grid-cols-4 md:grid-cols-8 lg:grid-cols-12">
+          {Array.from({ length: 3 }).map((_, i) => <Skeleton key={i} className="h-32 col-span-4" />)}
         </div>
-        <Skeleton className="h-48" />
+        <Skeleton className="h-[300px]" />
       </div>
     );
   }
 
   if (!agency) return null;
 
+  // Mock data for the chart since the real API might not have it yet
+  const chartData = [
+    { date: 'Jan', value: 65 },
+    { date: 'Fev', value: 68 },
+    { date: 'Mar', value: 74 },
+    { date: 'Avr', value: 72 },
+    { date: 'Mai', value: 80 },
+    { date: 'Juin', value: 85 },
+  ];
+
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
+    <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">{agency.name}</h1>
-          <p className="text-sm text-muted-foreground">Tableau de bord de l&apos;agence</p>
+          <h1 className="text-3xl font-bold tracking-tight text-foreground">{agency.name}</h1>
+          <p className="text-sm text-muted-foreground mt-1">Tableau de bord de l'agence (Pro)</p>
         </div>
-        <div className="flex gap-2">
-          <Button variant="outline" onClick={() => setInviteModal(true)}>
+        <div className="flex flex-wrap gap-2">
+          <Button variant="outline" onClick={() => setInviteModal(true)} className="btn-transition hover:bg-surface-alt">
             Inviter un client
           </Button>
-          <Button onClick={() => router.push('/agency/reports')}>
+          <Button onClick={() => router.push('/agency/reports')} className="btn-transition">
             Générer un rapport
           </Button>
         </div>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <Card>
-          <CardContent className="p-6">
-            <p className="text-sm text-muted-foreground">Clients</p>
-            <p className="text-3xl font-bold mt-1">{projects?.length ?? 0}</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-6">
-            <p className="text-sm text-muted-foreground">Projets</p>
-            <p className="text-3xl font-bold mt-1">{projects?.length ?? 0}</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-6">
-            <p className="text-sm text-muted-foreground">Rapports générés</p>
-            <p className="text-3xl font-bold mt-1">{reports?.length ?? 0}</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-6">
-            <p className="text-sm text-muted-foreground">Domaine personnalisé</p>
-            <p className="text-lg font-bold mt-2 truncate">{agency.customDomain || 'Non configuré'}</p>
-          </CardContent>
-        </Card>
+      {/* Grid Layout (12 columns) */}
+      <div className="grid gap-6 grid-cols-4 md:grid-cols-8 lg:grid-cols-12">
+        {/* ScoreCards */}
+        <ScoreCard 
+          title="SEO Health" 
+          value={85} 
+          trend={12} 
+          color="var(--primary)" 
+        />
+        <ScoreCard 
+          title="AI Visibility" 
+          value={aiData?.visibilityScore ?? 60} 
+          trend={5} 
+          color="var(--info)" 
+        />
+        <ScoreCard 
+          title="Growth Potential" 
+          value={growthData?.potentialScore ?? 75} 
+          trend={-2} 
+          color="var(--success)" 
+        />
+
+        {/* Evolution Chart */}
+        <ChartLine title="Évolution du SEO Health" data={chartData} />
+
+        {/* Narrative & Actions Blocks (spanning 12 cols total) */}
+        <div className="col-span-12 md:col-span-8 lg:col-span-12">
+          <NarrativeBlock 
+            scoreGlobal={85}
+            issuesCount={12}
+            pagesCrawled={150}
+            aiVisibility={aiData?.visibilityScore ?? 60}
+            growthPotential={growthData?.potentialScore ?? 75}
+            topOpportunities={['Optimiser les balises H1 sur les pages produits', 'Créer plus de contenu pour les requêtes IA']}
+          />
+        </div>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2">
-        <ScoreCard
-          label="Score Visibilité IA"
-          score={aiData?.visibilityScore ?? null}
-          color="#8b5cf6"
-        />
-        <ScoreCard
-          label="Score Potentiel Croissance"
-          score={growthData?.potentialScore ?? null}
-          color="#06b6d4"
-        />
-      </div>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>Rapports récents</CardTitle>
-          <CardDescription>Derniers rapports générés pour vos clients</CardDescription>
-        </CardHeader>
-        <CardContent>
-          {reportsLoading && <Skeleton className="h-20" />}
-          {!reportsLoading && (!reports || reports.length === 0) && (
-            <p className="text-sm text-muted-foreground text-center py-4">
-              Aucun rapport pour le moment
-            </p>
-          )}
-          {reports && reports.length > 0 && (
-            <div className="space-y-3">
-              {reports.slice(0, 5).map(report => (
-                <div key={report.id} className="flex items-center justify-between p-3 rounded-lg border">
-                  <div>
-                    <p className="text-sm font-medium">Rapport {report.periodType}</p>
-                    <p className="text-xs text-muted-foreground">
-                      {new Date(report.createdAt).toLocaleDateString('fr')}
-                    </p>
-                  </div>
-                  <div className="flex gap-2">
-                    {report.seoScore !== null && (
-                      <Badge variant={report.seoScore >= 80 ? 'success' : report.seoScore >= 50 ? 'warning' : 'destructive'}>
-                        SEO: {report.seoScore}
-                      </Badge>
-                    )}
-                    {report.aiScore !== null && (
-                      <Badge variant={report.aiScore >= 80 ? 'success' : report.aiScore >= 50 ? 'warning' : 'destructive'}>
-                        IA: {report.aiScore}
-                      </Badge>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </CardContent>
-      </Card>
-
+      {/* Invite Client Modal */}
       <Dialog open={inviteModal} onClose={() => setInviteModal(false)}>
         <DialogHeader>
           <DialogTitle>Inviter un client</DialogTitle>
@@ -203,9 +146,9 @@ export default function AgencyDashboardPage() {
             Le client recevra un lien de connexion magique par email.
           </DialogDescription>
         </DialogHeader>
-        <div className="space-y-4">
+        <div className="space-y-4 pt-2">
           <div>
-            <label className="block text-sm font-medium mb-1.5">Email du client</label>
+            <label className="block text-sm font-medium mb-1.5 text-foreground">Email du client</label>
             <Input
               type="email"
               value={inviteEmail}

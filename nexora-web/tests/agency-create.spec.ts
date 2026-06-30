@@ -44,7 +44,7 @@ test.describe('Agency Creation & Management', () => {
     if (await agencyName.isVisible({ timeout: 3000 }).catch(() => false)) {
       await expect(page.getByText('Clients', { exact: true }).first()).toBeVisible();
       await expect(page.getByText('Projets', { exact: true }).first()).toBeVisible();
-      await expect(page.getByText('Rapports générés', { exact: true })).toBeVisible();
+      await expect(page.getByText('SEO Health', { exact: true })).toBeVisible();
     }
   });
 
