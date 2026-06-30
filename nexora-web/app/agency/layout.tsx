@@ -35,7 +35,7 @@ export default function AgencyLayout({ children }: { children: React.ReactNode }
 
   const { data: user, isLoading, isFetching, error } = useQuery({
     queryKey: ['me'],
-    queryFn: () => apiFetch<{ id: string; email: string; name?: string; onboardingComplete: boolean }>('/me'),
+    queryFn: () => apiFetch<{ id: string; email: string; name?: string; role: string; onboardingComplete: boolean }>('/me'),
     retry: false,
   });
 
@@ -89,6 +89,11 @@ export default function AgencyLayout({ children }: { children: React.ReactNode }
     if (isLoading || isFetching || agenciesLoading) return;
     if (error) { router.push('/login'); return; }
     if (!user) return;
+
+    if (user.role === 'client') {
+      router.push('/client/dashboard');
+      return;
+    }
 
     if (!user.onboardingComplete) {
       if (agencies && agencies.length > 0) {

@@ -43,7 +43,7 @@ export class AuthService {
   async signup(email: string, password: string, name?: string) {
     const user = await this.usersService.create(email, password, name);
     await this.subscriptionsService.createFree(user.id);
-    return this.generateTokens(user.id, user.email);
+    return this.generateTokens(user.id, user.email, user.role);
   }
 
   async login(email: string, password: string) {
@@ -53,7 +53,7 @@ export class AuthService {
     const valid = await bcrypt.compare(password, user.passwordHash);
     if (!valid) throw new UnauthorizedException('Identifiants invalides');
 
-    return this.generateTokens(user.id, user.email);
+    return this.generateTokens(user.id, user.email, user.role);
   }
 
   async refresh(refreshToken: string) {
@@ -67,7 +67,7 @@ export class AuthService {
       throw new UnauthorizedException('Token de rafraîchissement invalide ou expiré');
     }
 
-    return this.generateTokens(session.user.id, session.user.email);
+    return this.generateTokens(session.user.id, session.user.email, session.user.role);
   }
 
   async logout(refreshToken: string) {
@@ -75,8 +75,8 @@ export class AuthService {
     if (session) await this.sessionRepo.remove(session);
   }
 
-  private async generateTokens(userId: string, email: string) {
-    const accessToken = this.jwtService.sign({ sub: userId, email });
+  private async generateTokens(userId: string, email: string, role: string) {
+    const accessToken = this.jwtService.sign({ sub: userId, email, role });
     const refreshToken = randomUUID();
 
     const expiresAt = new Date();

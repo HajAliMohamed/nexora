@@ -26,6 +26,7 @@ export class MeController {
       id: full.id,
       email: full.email,
       name: full.name,
+      role: full.role,
       onboardingComplete: full.onboardingComplete,
       createdAt: full.createdAt,
     };

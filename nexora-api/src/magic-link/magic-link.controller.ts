@@ -58,7 +58,7 @@ export class MagicLinkController {
     }
 
     const accessToken = this.jwtService.sign(
-      { sub: user.id, email: user.email },
+      { sub: user.id, email: user.email, role: user.role },
       { expiresIn: '7d' },
     );
 
