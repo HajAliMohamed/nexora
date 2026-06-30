@@ -13,7 +13,7 @@ RUN npm install -g pnpm
 WORKDIR /app
 ENV NODE_ENV=production
 COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/package.json /app/pnpm-lock.yaml ./
+COPY --from=builder /app/package.json /app/pnpm-lock.yaml /app/pnpm-workspace.yaml ./
 RUN apk add --no-cache chromium
 RUN pnpm install --prod --frozen-lockfile
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
