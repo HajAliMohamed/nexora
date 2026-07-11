@@ -17,7 +17,7 @@ import { AlertsModule } from '../alerts/alerts.module';
     forwardRef(() => BillingModule),
     forwardRef(() => ProjectsModule),
     SerpModule,
-    AlertsModule,
+    forwardRef(() => AlertsModule),
   ],
   providers: [CompetitorsService],
   controllers: [CompetitorsController],
