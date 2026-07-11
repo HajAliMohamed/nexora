@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { BullModule } from '@nestjs/bullmq';
 import { SeoAlert } from './entities/seo-alert.entity';
@@ -13,8 +13,8 @@ import { ProjectsModule } from '../projects/projects.module';
   imports: [
     TypeOrmModule.forFeature([SeoAlert]),
     BullModule.registerQueue({ name: 'alerts' }),
-    KeywordsModule,
-    ProjectsModule,
+    forwardRef(() => KeywordsModule),
+    forwardRef(() => ProjectsModule),
   ],
   providers: [AlertsService, RankAlertsProcessor, AlertsCron],
   controllers: [AlertsController],
