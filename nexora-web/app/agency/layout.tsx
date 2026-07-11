@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import type { Agency } from '@/lib/types/shared';
-import { Search, Bell, LayoutDashboard, Sparkles, FolderKanban, Search as SearchIcon, AlertTriangle, FileText, Users, Users2, CreditCard, Settings, Menu, X } from 'lucide-react';
+import { Search, Bell, LayoutDashboard, Sparkles, FolderKanban, Search as SearchIcon, AlertTriangle, FileText, Users, Users2, CreditCard, Settings, Menu, X, Workflow, Crosshair, LineChart, Link as LinkIcon, LayoutTemplate, Kanban, ShoppingCart } from 'lucide-react';
 
 type NavItem = {
   href: string;
@@ -29,6 +29,20 @@ const NAV_GROUPS: NavGroup[] = [
     items: [
       { href: '/agency/dashboard', label: 'Tableau de bord', icon: LayoutDashboard },
       { href: '/agency/assistant', label: 'Assistant IA', icon: Sparkles },
+    ]
+  },
+  {
+    title: 'V3',
+    items: [
+      { href: '/agency/strategy', label: 'AI Strategy', icon: Workflow },
+      { href: '/agency/radar', label: 'Radar Concurrents', icon: Crosshair },
+      { href: '/agency/predictive', label: 'Prédictions IA', icon: LineChart },
+      { href: '/agency/automation', label: 'Automatisation', icon: Sparkles },
+      { href: '/agency/content-factory', label: 'Contenu IA', icon: FileText },
+      { href: '/agency/landing-generator', label: 'Landing Pages', icon: LayoutTemplate },
+      { href: '/agency/backlinks', label: 'Backlinks', icon: LinkIcon },
+      { href: '/agency/crm', label: 'CRM', icon: Kanban },
+      { href: '/agency/marketplace', label: 'Marketplace', icon: ShoppingCart },
     ]
   },
   {

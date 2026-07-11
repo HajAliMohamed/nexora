@@ -56,4 +56,9 @@ export class AuditsController {
   ) {
     return this.auditsService.getAuditIssues(auditId, { severity, type });
   }
+
+  @Get('audits/:auditId/auto-fixes')
+  getAutoFixes(@Param('auditId') auditId: string) {
+    return this.auditsService.getAutoFixes(auditId);
+  }
 }

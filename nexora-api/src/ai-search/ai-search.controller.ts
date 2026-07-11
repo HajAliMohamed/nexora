@@ -1,4 +1,5 @@
-import { Controller, Get, Param, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, Req, UseGuards } from '@nestjs/common';
+import type { Request } from 'express';
 import { AuthGuard } from '../common/guards/auth.guard';
 import { AiSearchService } from './ai-search.service';
 
@@ -10,5 +11,11 @@ export class AiSearchController {
   @Get()
   async getVisibility(@Param('id') id: string) {
     return this.aiSearchService.computeVisibility(id);
+  }
+
+  @Get('defense')
+  async getDefense(@Param('id') id: string, @Req() req: Request) {
+    const userId = (req as any).user.id;
+    return this.aiSearchService.computeDefense(id, userId);
   }
 }

@@ -18,5 +18,6 @@ import { ProjectsModule } from '../projects/projects.module';
   ],
   providers: [AlertsService, RankAlertsProcessor, AlertsCron],
   controllers: [AlertsController],
+  exports: [AlertsService],
 })
 export class AlertsModule {}

@@ -24,18 +24,26 @@ function timeAgo(dateStr: string): string {
 function AlertCard({ alert, onMarkRead }: { alert: SeoAlert; onMarkRead: (id: string) => void }) {
   const isGain = alert.type === 'ranking_gain';
   const isDrop = alert.type === 'ranking_drop';
+  const isAiLoss = alert.type === 'ai_search_loss';
+  const isCompMove = alert.type === 'competitor_movement';
   const keyword = (alert.payload.keyword as string) || '';
   const from = alert.payload.from as number;
   const to = alert.payload.to as number;
+  const prompt = alert.payload.prompt as string;
+  const visibilityScore = alert.payload.visibilityScore as number;
+  const detail = alert.payload.detail as string;
+  const competitor = alert.payload.competitor as string;
 
   return (
     <Card className={`cursor-pointer transition-colors ${alert.readAt ? '' : 'border-brand/30 bg-brand/[0.02]'} hover:bg-muted/50`} onClick={() => !alert.readAt && onMarkRead(alert.id)}>
       <CardContent className="flex items-start gap-3 p-4">
-        <span className="text-lg mt-0.5">{isGain ? '↑' : isDrop ? '↓' : '•'}</span>
+        <span className="text-lg mt-0.5">
+          {isGain ? '↑' : isDrop ? '↓' : isAiLoss ? '🛡' : isCompMove ? '📡' : '•'}
+        </span>
         <div className="flex-1 min-w-0">
-          {isGain && (<p className="text-sm">Le mot-clé <strong>"{keyword}"</strong> est passé de la position {from} à la position {to}<Badge variant="success" className="ml-1">+{from - to}</Badge></p>)}
-          {isDrop && (<p className="text-sm">Le mot-clé <strong>"{keyword}"</strong> est tombé de la position {from} à la position {to}<Badge variant="destructive" className="ml-1">{to - from}</Badge></p>)}
-          {!isGain && !isDrop && (<p className="text-sm">{JSON.stringify(alert.payload)}</p>)}
+          {(isGain || isDrop) && (<p className="text-sm">Le mot-clé <strong>"{keyword}"</strong> {isGain ? `est passé de la position ${from} à la position ${to}` : `est tombé de la position ${from} à la position ${to}`}<Badge variant={isGain ? 'success' : 'destructive'} className="ml-1">{isGain ? `+${from - to}` : `${to - from}`}</Badge></p>)}
+          {isAiLoss && (<p className="text-sm">Visibilité IA en baisse sur <strong>"{prompt}"</strong><Badge variant="destructive" className="ml-1">{visibilityScore}/100</Badge></p>)}
+          {isCompMove && (<p className="text-sm"><strong>{competitor}</strong> — {detail || `a bougé sur le mot-clé "${keyword}"`}</p>)}
           <p className="text-xs text-muted-foreground mt-1">{timeAgo(alert.createdAt)}</p>
         </div>
         {!alert.readAt && <span className="w-2 h-2 rounded-full bg-brand mt-2 shrink-0" />}

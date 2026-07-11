@@ -75,11 +75,25 @@ services:
       ZEZE_API_KEY: ${ZEZE_API_KEY}
       ZEZE_PROJECT_ID: ${ZEZE_PROJECT_ID}
       GROQ_API_KEY: ${GROQ_API_KEY}
+      ML_SERVICE_URL: http://nexora-ml:5000
     depends_on:
       postgres:
         condition: service_healthy
       redis:
         condition: service_healthy
+      nexora-ml:
+        condition: service_started
+    networks:
+      - nexora
+    restart: unless-stopped
+
+  nexora-ml:
+    build:
+      context: ./nexora-ml
+      dockerfile: Dockerfile
+    container_name: nexora-ml
+    ports:
+      - '127.0.0.1:5000:5000'
     networks:
       - nexora
     restart: unless-stopped

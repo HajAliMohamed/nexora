@@ -46,4 +46,10 @@ export class CompetitorsController {
     await this.competitorsService.refreshPositions(projectId);
     return { message: 'Positions concurrentielles mises à jour' };
   }
+
+  @Get('radar')
+  async getRadar(@Param('projectId') projectId: string, @Req() req: Request) {
+    const userId = (req as any).user.id;
+    return this.competitorsService.getRadar(projectId, userId);
+  }
 }

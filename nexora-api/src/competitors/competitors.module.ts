@@ -9,6 +9,7 @@ import { CompetitorsController } from './competitors.controller';
 import { SerpModule } from '../serp/serp.module';
 import { BillingModule } from '../billing/billing.module';
 import { ProjectsModule } from '../projects/projects.module';
+import { AlertsModule } from '../alerts/alerts.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { ProjectsModule } from '../projects/projects.module';
     forwardRef(() => BillingModule),
     forwardRef(() => ProjectsModule),
     SerpModule,
+    AlertsModule,
   ],
   providers: [CompetitorsService],
   controllers: [CompetitorsController],

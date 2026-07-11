@@ -10,6 +10,7 @@ const CLIENT_NAV: { href: string; label: string }[] = [
   { href: '/client/dashboard', label: 'Tableau de bord' },
   { href: '/client/projects', label: 'Projets' },
   { href: '/client/reports', label: 'Rapports' },
+  { href: '/client/copilot', label: 'Copilote IA' },
 ];
 
 export default function ClientLayout({ children }: { children: React.ReactNode }) {

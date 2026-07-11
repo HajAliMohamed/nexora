@@ -10,6 +10,27 @@ export type PlanLimits = {
   whiteLabel: boolean;
 };
 
+export const PLAN_LIMITS: Record<string, PlanLimits> = {
+  free: {
+    maxProjects: 1, maxKeywords: 20, maxPagesPerAudit: 100,
+    maxAuditsPerMonth: 1, maxCompetitorsPerProject: 1,
+    maxKeywordSearchesPerDay: 5, historyDays: 30,
+    pdfExport: false, whiteLabel: false,
+  },
+  pro: {
+    maxProjects: 5, maxKeywords: 500, maxPagesPerAudit: 500,
+    maxAuditsPerMonth: 10, maxCompetitorsPerProject: 5,
+    maxKeywordSearchesPerDay: 50, historyDays: 180,
+    pdfExport: true, whiteLabel: false,
+  },
+  agency: {
+    maxProjects: 20, maxKeywords: 5000, maxPagesPerAudit: 2000,
+    maxAuditsPerMonth: 9999, maxCompetitorsPerProject: 10,
+    maxKeywordSearchesPerDay: 500, historyDays: 730,
+    pdfExport: true, whiteLabel: true,
+  },
+};
+
 export type Project = {
   id: string;
   name: string;
@@ -95,6 +116,11 @@ export type KeywordDiffResult = {
   competitorPositions: { domain: string; position: number | null }[];
 };
 
+export type CompetitorRadar = {
+  events: { type: string; competitor: string; keyword: string; detail: string }[];
+  competitorMovements: { domain: string; gained: number; lost: number }[];
+};
+
 export type ProjectOverview = {
   project: { id: string; name: string; domain: string; countryCode: string };
   lastAudit: {
@@ -130,7 +156,7 @@ export type SeoAlert = {
   id: string;
   userId: string;
   projectId: string;
-  type: 'ranking_gain' | 'ranking_drop' | 'audit_score_drop';
+  type: 'ranking_gain' | 'ranking_drop' | 'audit_score_drop' | 'ai_search_loss' | 'competitor_movement';
   payload: Record<string, unknown>;
   createdAt: string;
   readAt: string | null;
@@ -184,6 +210,14 @@ export type AiSearchData = {
   opportunities: { prompt: string; source: string }[];
 };
 
+export type AiSearchDefense = {
+  visibilityScore: number;
+  trend: 'up' | 'down' | 'stable';
+  lostPrompts: { prompt: string; source: string }[];
+  gainedPrompts: { prompt: string; source: string }[];
+  fixSuggestions: string[];
+};
+
 export type GrowthData = {
   pages: { url: string; delta: number; status: string }[];
   keywords: { keyword: string; position: number; change: number }[];
@@ -209,4 +243,17 @@ export type ReportV2 = {
 export type AssistantResponse = {
   answer: string;
   context: Record<string, unknown>;
+};
+
+export type PredictiveForecast = {
+  id: string;
+  projectId: string;
+  metricType: string;
+  history: { date: string; value: number }[];
+  forecast: { date: string; value: number; confidenceLower: number; confidenceUpper: number }[];
+  anomalies: { index: number; value: number; z_score: number; type: string }[];
+  trend: { direction: string; strength: number; momentum: string };
+  risk: { riskScore: number; riskFactors: { factor: string; severity: string; detail: string }[] };
+  horizonDays: number;
+  createdAt: string;
 };

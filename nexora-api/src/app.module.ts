@@ -22,6 +22,14 @@ import { AiSearchModule } from './ai-search/ai-search.module';
 import { GrowthEngineModule } from './growth-engine/growth-engine.module';
 import { AssistantModule } from './assistant/assistant.module';
 import { BrandingModule } from './branding/branding.module';
+import { StrategyModule } from './strategy/strategy.module';
+import { PredictiveModule } from './predictive/predictive.module';
+import { AutomationModule } from './automation/automation.module';
+import { ContentModule } from './content/content.module';
+import { LandingModule } from './landing/landing.module';
+import { BacklinksModule } from './backlinks/backlinks.module';
+import { CrmModule } from './crm/crm.module';
+import { MarketplaceModule } from './marketplace/marketplace.module';
 
 @Module({
   imports: [
@@ -63,6 +71,14 @@ import { BrandingModule } from './branding/branding.module';
     AiSearchModule,
     GrowthEngineModule,
     AssistantModule,
+    StrategyModule,
+    PredictiveModule,
+    AutomationModule,
+    ContentModule,
+    LandingModule,
+    BacklinksModule,
+    CrmModule,
+    MarketplaceModule,
     BrandingModule,
   ],
   controllers: [HealthController],

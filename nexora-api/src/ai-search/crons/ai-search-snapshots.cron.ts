@@ -30,4 +30,23 @@ export class AiSearchSnapshotsCron {
     }
     this.logger.log(`AI search snapshots done: ${projects.length} projects`);
   }
+
+  @Cron('0 6 * * 1')
+  async runDefenseCheck() {
+    this.logger.log('Running AI Search defense check for all agency projects...');
+    const projects = await this.projectRepo.find({
+      where: { agencyId: Not(IsNull()) },
+      relations: ['user'],
+    });
+
+    for (const project of projects) {
+      try {
+        await this.aiSearchService.computeDefense(project.id, project.userId);
+        this.logger.log(`Defense check done for project ${project.id}`);
+      } catch (err) {
+        this.logger.error(`Failed defense check for ${project.id}: ${(err as Error).message}`);
+      }
+    }
+    this.logger.log(`Defense check done: ${projects.length} projects`);
+  }
 }

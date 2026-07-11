@@ -1,6 +1,6 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, MoreThanOrEqual } from 'typeorm';
 import { Competitor } from '../projects/entities/competitor.entity';
 import { Keyword } from '../keywords/entities/keyword.entity';
 import { KeywordPosition } from '../keywords/entities/keyword-position.entity';
@@ -8,6 +8,7 @@ import { CompetitorPosition } from './entities/competitor-position.entity';
 import { LimitsService } from '../billing/limits.service';
 import { ProjectsService } from '../projects/projects.service';
 import { SerpService } from '../serp/serp.service';
+import { AlertsService } from '../alerts/alerts.service';
 import type { CompetitorOverview, KeywordDiffResult } from '../types/shared';
 
 const CTR_MODEL: Record<string, number> = {
@@ -39,6 +40,7 @@ export class CompetitorsService {
     private readonly limitsService: LimitsService,
     private readonly projectsService: ProjectsService,
     private readonly serpService: SerpService,
+    private readonly alertsService: AlertsService,
   ) {}
 
   async listCompetitors(projectId: string): Promise<Competitor[]> {
@@ -172,5 +174,90 @@ export class CompetitorsService {
     }
 
     return results;
+  }
+
+  async getRadar(projectId: string, userId: string): Promise<{
+    events: { type: string; competitor: string; keyword: string; detail: string }[];
+    competitorMovements: { domain: string; gained: number; lost: number }[];
+  }> {
+    const competitors = await this.competitorRepo.find({ where: { projectId } });
+    const keywords = await this.keywordRepo.find({ where: { projectId } });
+
+    if (competitors.length === 0 || keywords.length === 0) {
+      return { events: [], competitorMovements: [] };
+    }
+
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+
+    const events: { type: string; competitor: string; keyword: string; detail: string }[] = [];
+    const competitorMovements: Record<string, { gained: number; lost: number }> = {};
+
+    for (const comp of competitors) {
+      competitorMovements[comp.domain] = { gained: 0, lost: 0 };
+
+      for (const kw of keywords) {
+        const latestPos = await this.compPosRepo.findOne({
+          where: { competitorId: comp.id, keywordId: kw.id },
+          order: { date: 'DESC' },
+        });
+
+        const oldPos = await this.compPosRepo.findOne({
+          where: {
+            competitorId: comp.id,
+            keywordId: kw.id,
+            date: MoreThanOrEqual(sevenDaysAgo),
+          },
+          order: { date: 'ASC' },
+        });
+
+        if (latestPos && oldPos && latestPos.id !== oldPos.id) {
+          const latest = latestPos.position;
+          const previous = oldPos.position;
+
+          if (latest !== null && latest !== undefined && previous !== null && previous !== undefined) {
+            if (latest < previous) {
+              competitorMovements[comp.domain].gained++;
+              if (latest <= 10 && previous > 10) {
+                events.push({
+                  type: 'competitor_top10',
+                  competitor: comp.domain,
+                  keyword: kw.keyword,
+                  detail: `${comp.domain} est entré dans le top 10 pour "${kw.keyword}" (#${previous} → #${latest})`,
+                });
+              }
+            } else if (latest > previous) {
+              competitorMovements[comp.domain].lost++;
+            }
+          }
+        } else if (latestPos && !oldPos) {
+          if (latestPos.position !== null && latestPos.position !== undefined && latestPos.position <= 10) {
+            events.push({
+              type: 'competitor_new_keyword',
+              competitor: comp.domain,
+              keyword: kw.keyword,
+              detail: `${comp.domain} apparaît dans le top 10 pour "${kw.keyword}" (#${latestPos.position})`,
+            });
+          }
+        }
+      }
+    }
+
+    const sortedMovements = Object.entries(competitorMovements)
+      .map(([domain, m]) => ({ domain, gained: m.gained, lost: m.lost }))
+      .sort((a, b) => b.gained - a.gained);
+
+    if (events.length > 0 && userId) {
+      for (const event of events.slice(0, 10)) {
+        await this.alertsService.createAlert({
+          userId,
+          projectId,
+          type: 'competitor_movement',
+          payload: event,
+        });
+      }
+    }
+
+    return { events, competitorMovements: sortedMovements };
   }
 }

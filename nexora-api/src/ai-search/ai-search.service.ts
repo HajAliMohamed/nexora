@@ -5,6 +5,7 @@ import { ConfigService } from '@nestjs/config';
 import * as cheerio from 'cheerio';
 import { AiSearchSnapshot } from './entities/ai-search-snapshot.entity';
 import { Project } from '../projects/entities/project.entity';
+import { AlertsService } from '../alerts/alerts.service';
 
 @Injectable()
 export class AiSearchService {
@@ -17,6 +18,7 @@ export class AiSearchService {
     @InjectRepository(Project)
     private readonly projectRepo: Repository<Project>,
     private readonly configService: ConfigService,
+    private readonly alertsService: AlertsService,
   ) {}
 
   async computeVisibility(projectId: string): Promise<{
@@ -235,6 +237,129 @@ export class AiSearchService {
       return [];
     } finally {
       if (page) await page.close().catch(() => {});
+    }
+  }
+
+  async computeDefense(projectId: string, userId?: string): Promise<{
+    visibilityScore: number;
+    trend: 'up' | 'down' | 'stable';
+    lostPrompts: { prompt: string; source: string }[];
+    gainedPrompts: { prompt: string; source: string }[];
+    fixSuggestions: string[];
+  }> {
+    const snapshots = await this.snapshotRepo.find({
+      where: { projectId },
+      order: { snapshotDate: 'DESC' },
+      take: 100,
+    });
+
+    if (snapshots.length === 0) {
+      return { visibilityScore: 0, trend: 'stable', lostPrompts: [], gainedPrompts: [], fixSuggestions: [] };
+    }
+
+    const latestDate = snapshots[0].snapshotDate;
+    const weekAgo = new Date(latestDate.getTime() - 7 * 24 * 60 * 60 * 1000);
+
+    const recentSnapshots = snapshots.filter(s => s.snapshotDate >= weekAgo);
+    const olderSnapshots = snapshots.filter(s => s.snapshotDate < weekAgo && s.snapshotDate >= new Date(weekAgo.getTime() - 7 * 24 * 60 * 60 * 1000));
+
+    const current = this.computeFromSnapshots(recentSnapshots);
+    const previous = olderSnapshots.length > 0 ? this.computeFromSnapshots(olderSnapshots) : null;
+
+    const currentPresentPrompts = new Set(recentSnapshots.filter(s => s.present).map(s => s.prompt));
+    const previousPresentPrompts = new Set(olderSnapshots.filter(s => s.present).map(s => s.prompt));
+
+    const lostPrompts = [...previousPresentPrompts].filter(p => !currentPresentPrompts.has(p)).map(p => ({
+      prompt: p, source: 'google_ai',
+    }));
+    const gainedPrompts = [...currentPresentPrompts].filter(p => !previousPresentPrompts.has(p)).map(p => ({
+      prompt: p, source: 'google_ai',
+    }));
+
+    let trend: 'up' | 'down' | 'stable' = 'stable';
+    if (previous && current.visibilityScore < previous.visibilityScore - 5) trend = 'down';
+    else if (previous && current.visibilityScore > previous.visibilityScore + 5) trend = 'up';
+
+    let fixSuggestions: string[] = [];
+    if (trend === 'down' || lostPrompts.length > 0) {
+      fixSuggestions = await this.generateFixSuggestions(projectId, lostPrompts, current.visibilityScore);
+
+      if (userId) {
+        for (const lost of lostPrompts) {
+          await this.alertsService.createAlert({
+            userId,
+            projectId,
+            type: 'ai_search_loss',
+            payload: {
+              prompt: lost.prompt,
+              visibilityScore: current.visibilityScore,
+              previousScore: previous?.visibilityScore ?? null,
+            },
+          });
+        }
+      }
+    }
+
+    return {
+      visibilityScore: current.visibilityScore,
+      trend,
+      lostPrompts,
+      gainedPrompts,
+      fixSuggestions,
+    };
+  }
+
+  private async generateFixSuggestions(
+    projectId: string,
+    lostPrompts: { prompt: string; source: string }[],
+    currentScore: number,
+  ): Promise<string[]> {
+    if (lostPrompts.length === 0) return [];
+
+    const groqApiKey = this.configService.get('GROQ_API_KEY');
+    if (!groqApiKey) return ['Configurez GROQ_API_KEY pour obtenir des suggestions de correction.'];
+
+    const project = await this.projectRepo.findOne({ where: { id: projectId } });
+    if (!project) return [];
+
+    const promptsList = lostPrompts.map(p => `- "${p.prompt}"`).join('\n');
+
+    const systemPrompt = `Tu es un expert SEO spécialisé dans la visibilité sur les moteurs de recherche IA (Google AI Overviews, SearchGPT, etc.).
+Tu aides les agences à reconquérir la visibilité perdue dans les résultats IA.
+Réponds en français avec des recommandations concrètes et actionnables.
+Sois synthétique : 2-4 suggestions maximum.`;
+
+    const userPrompt = `Le site ${project.domain} a perdu de la visibilité dans les résultats de recherche IA.
+Score de visibilité actuel : ${currentScore}/100.
+Prompts où le site n'apparaît plus :\n${promptsList}\n\nQuelles actions concrètes recommandes-tu pour réapparaître dans ces résultats IA ?`;
+
+    try {
+      const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${groqApiKey}`,
+        },
+        body: JSON.stringify({
+          model: 'llama-3.3-70b-versatile',
+          messages: [
+            { role: 'system', content: systemPrompt },
+            { role: 'user', content: userPrompt },
+          ],
+          max_tokens: 512,
+          temperature: 0.5,
+        }),
+      });
+
+      if (!response.ok) throw new Error(`Groq API returned ${response.status}`);
+
+      const data = await response.json() as any;
+      const content = data.choices?.[0]?.message?.content || '';
+      return content.split('\n').filter((l: string) => l.trim().length > 0 && !l.trim().startsWith('#'));
+
+    } catch (err) {
+      this.logger.warn(`Failed to generate fix suggestions: ${(err as Error).message}`);
+      return ['Analyse en cours - revenez plus tard pour des suggestions détaillées.'];
     }
   }
 
