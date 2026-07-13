@@ -34,6 +34,7 @@ const NAV_GROUPS: NavGroup[] = [
   {
     title: 'V3',
     items: [
+      { href: '/agency/v3-dashboard', label: 'Dashboard V3', icon: LayoutDashboard },
       { href: '/agency/strategy', label: 'AI Strategy', icon: Workflow },
       { href: '/agency/radar', label: 'Radar Concurrents', icon: Crosshair },
       { href: '/agency/predictive', label: 'Prédictions IA', icon: LineChart },

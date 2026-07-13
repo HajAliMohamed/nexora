@@ -92,4 +92,11 @@ export class ContentService {
   async listArticles(projectId: string): Promise<ContentArticle[]> {
     return this.articleRepo.find({ where: { projectId }, order: { createdAt: 'DESC' } });
   }
+
+  async publishArticle(articleId: string): Promise<ContentArticle> {
+    const article = await this.articleRepo.findOne({ where: { id: articleId } });
+    if (!article) throw new Error('Article introuvable');
+    article.status = 'published';
+    return this.articleRepo.save(article);
+  }
 }

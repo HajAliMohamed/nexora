@@ -29,4 +29,9 @@ export class ContentController {
   listArticles(@Param('projectId') projectId: string) {
     return this.contentService.listArticles(projectId);
   }
+
+  @Post('articles/:id/publish')
+  publishArticle(@Param('id') id: string) {
+    return this.contentService.publishArticle(id);
+  }
 }

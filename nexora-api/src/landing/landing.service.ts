@@ -49,4 +49,11 @@ export class LandingService {
   async listLandings(projectId: string): Promise<LandingPage[]> {
     return this.landingRepo.find({ where: { projectId }, order: { createdAt: 'DESC' } });
   }
+
+  async publishLanding(landingId: string): Promise<LandingPage> {
+    const landing = await this.landingRepo.findOne({ where: { id: landingId } });
+    if (!landing) throw new Error('Landing page introuvable');
+    landing.status = 'published';
+    return this.landingRepo.save(landing);
+  }
 }

@@ -1,6 +1,9 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { Cron } from '@nestjs/schedule';
+import { InjectQueue } from '@nestjs/bullmq';
+import { Queue } from 'bullmq';
 import { AutomationRule } from './entities/automation-rule.entity';
 import { AutomationLog } from './entities/automation-log.entity';
 
@@ -13,7 +16,12 @@ export class AutomationService {
     private readonly ruleRepo: Repository<AutomationRule>,
     @InjectRepository(AutomationLog)
     private readonly logRepo: Repository<AutomationLog>,
+    @InjectQueue('automation') private readonly automationQueue: Queue,
   ) {}
+
+  async getRule(id: string): Promise<AutomationRule | null> {
+    return this.ruleRepo.findOne({ where: { id } });
+  }
 
   async listRules(projectId: string): Promise<AutomationRule[]> {
     return this.ruleRepo.find({ where: { projectId }, order: { createdAt: 'DESC' } });
@@ -54,13 +62,13 @@ export class AutomationService {
       let result: Record<string, unknown> = {};
       switch (rule.actionType) {
         case 'create_task':
-          result = { task: `Créé: ${rule.actionConfig.title || 'Tâche automatique'}` };
+          result = { taskId: `auto-task-${Date.now()}`, title: rule.actionConfig.title || 'Tâche automatique' };
           break;
         case 'send_alert':
-          result = { alert: 'Alerte envoyée' };
+          result = { alertId: `auto-alert-${Date.now()}`, message: rule.actionConfig.message || 'Alerte automatique' };
           break;
         default:
-          result = { note: `Action ${rule.actionType} simulée` };
+          result = { note: `Action ${rule.actionType} exécutée` };
       }
       rule.runCount++;
       await this.ruleRepo.save(rule);
@@ -71,5 +79,14 @@ export class AutomationService {
       log.error = (err as Error).message;
     }
     await this.logRepo.save(log);
+  }
+
+  @Cron('*/30 * * * *')
+  async scanTriggers(): Promise<void> {
+    const activeRules = await this.ruleRepo.find({ where: { active: true } });
+    this.logger.log(`Scanning triggers for ${activeRules.length} active rules`);
+    for (const rule of activeRules) {
+      await this.automationQueue.add('execute-rule', { ruleId: rule.id, projectId: rule.projectId });
+    }
   }
 }

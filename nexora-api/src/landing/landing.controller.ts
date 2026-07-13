@@ -19,4 +19,9 @@ export class LandingController {
   list(@Param('projectId') projectId: string) {
     return this.landingService.listLandings(projectId);
   }
+
+  @Post(':id/publish')
+  publishLanding(@Param('id') id: string) {
+    return this.landingService.publishLanding(id);
+  }
 }

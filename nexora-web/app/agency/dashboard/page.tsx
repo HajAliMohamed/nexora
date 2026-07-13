@@ -13,6 +13,7 @@ import { ScoreCard } from '@/components/dashboard/score-card';
 import { ChartLine } from '@/components/dashboard/chart-line';
 import { NarrativeBlock } from '@/components/narrative-block';
 import { getPlanLabel } from '@/lib/plans';
+import { Workflow, Crosshair, LineChart as LineChartIcon, FileText, LayoutTemplate, Link as LinkIcon, Kanban, ShoppingCart, Sparkles, ChevronRight } from 'lucide-react';
 
 export default function AgencyDashboardPage() {
   const router = useRouter();
@@ -144,6 +145,80 @@ export default function AgencyDashboardPage() {
             growthPotential={growthPotential ?? undefined}
             topOpportunities={opportunities}
           />
+        </div>
+      </div>
+
+      <div className="col-span-12">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-lg font-semibold text-foreground">Modules V3</h2>
+          <Button variant="outline" size="sm" onClick={() => router.push('/agency/v3-dashboard')}>
+            Dashboard V3 <ChevronRight size={14} className="ml-1" />
+          </Button>
+        </div>
+        <div className="grid gap-3 grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+          <div className="bg-surface border border-border rounded-lg p-3 hover:shadow-md transition-shadow cursor-pointer" onClick={() => router.push('/agency/strategy')}>
+            <div className="flex items-center gap-2 mb-1">
+              <Workflow size={14} className="text-[#4F46E5]" />
+              <span className="text-xs font-medium text-foreground">Stratégie IA</span>
+            </div>
+            <p className="text-lg font-bold text-foreground">{overview ? 'Actif' : '—'}</p>
+          </div>
+          <div className="bg-surface border border-border rounded-lg p-3 hover:shadow-md transition-shadow cursor-pointer" onClick={() => router.push('/agency/radar')}>
+            <div className="flex items-center gap-2 mb-1">
+              <Crosshair size={14} className="text-[#06B6D4]" />
+              <span className="text-xs font-medium text-foreground">Radar</span>
+            </div>
+            <p className="text-lg font-bold text-foreground">{overview ? 'Actif' : '—'}</p>
+          </div>
+          <div className="bg-surface border border-border rounded-lg p-3 hover:shadow-md transition-shadow cursor-pointer" onClick={() => router.push('/agency/predictive')}>
+            <div className="flex items-center gap-2 mb-1">
+              <LineChartIcon size={14} className="text-[#F97316]" />
+              <span className="text-xs font-medium text-foreground">Prédictions</span>
+            </div>
+            <p className="text-lg font-bold text-foreground">{overview ? 'Actif' : '—'}</p>
+          </div>
+          <div className="bg-surface border border-border rounded-lg p-3 hover:shadow-md transition-shadow cursor-pointer" onClick={() => router.push('/agency/automation')}>
+            <div className="flex items-center gap-2 mb-1">
+              <Sparkles size={14} className="text-[#22C55E]" />
+              <span className="text-xs font-medium text-foreground">Automation</span>
+            </div>
+            <p className="text-lg font-bold text-foreground">{overview ? 'Actif' : '—'}</p>
+          </div>
+          <div className="bg-surface border border-border rounded-lg p-3 hover:shadow-md transition-shadow cursor-pointer" onClick={() => router.push('/agency/content-factory')}>
+            <div className="flex items-center gap-2 mb-1">
+              <FileText size={14} className="text-[#8B5CF6]" />
+              <span className="text-xs font-medium text-foreground">Contenu IA</span>
+            </div>
+            <p className="text-lg font-bold text-foreground">{overview ? 'Actif' : '—'}</p>
+          </div>
+          <div className="bg-surface border border-border rounded-lg p-3 hover:shadow-md transition-shadow cursor-pointer" onClick={() => router.push('/agency/landing-generator')}>
+            <div className="flex items-center gap-2 mb-1">
+              <LayoutTemplate size={14} className="text-[#EC4899]" />
+              <span className="text-xs font-medium text-foreground">Landing Pages</span>
+            </div>
+            <p className="text-lg font-bold text-foreground">{overview ? 'Actif' : '—'}</p>
+          </div>
+          <div className="bg-surface border border-border rounded-lg p-3 hover:shadow-md transition-shadow cursor-pointer" onClick={() => router.push('/agency/backlinks')}>
+            <div className="flex items-center gap-2 mb-1">
+              <LinkIcon size={14} className="text-[#14B8A6]" />
+              <span className="text-xs font-medium text-foreground">Backlinks</span>
+            </div>
+            <p className="text-lg font-bold text-foreground">{overview ? 'Actif' : '—'}</p>
+          </div>
+          <div className="bg-surface border border-border rounded-lg p-3 hover:shadow-md transition-shadow cursor-pointer" onClick={() => router.push('/agency/crm')}>
+            <div className="flex items-center gap-2 mb-1">
+              <Kanban size={14} className="text-[#6366F1]" />
+              <span className="text-xs font-medium text-foreground">CRM</span>
+            </div>
+            <p className="text-lg font-bold text-foreground">{overview ? 'Actif' : '—'}</p>
+          </div>
+          <div className="bg-surface border border-border rounded-lg p-3 hover:shadow-md transition-shadow cursor-pointer" onClick={() => router.push('/agency/marketplace')}>
+            <div className="flex items-center gap-2 mb-1">
+              <ShoppingCart size={14} className="text-[#F59E0B]" />
+              <span className="text-xs font-medium text-foreground">Marketplace</span>
+            </div>
+            <p className="text-lg font-bold text-foreground">{overview ? 'Actif' : '—'}</p>
+          </div>
         </div>
       </div>
 

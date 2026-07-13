@@ -21,6 +21,9 @@ export class BacklinkOutreach {
   status: string;
 
   @Column({ nullable: true })
+  sentAt: Date;
+
+  @Column({ nullable: true })
   responseAt: Date;
 
   @Column({ nullable: true })

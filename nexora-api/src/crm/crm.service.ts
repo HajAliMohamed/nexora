@@ -32,4 +32,32 @@ export class CrmService {
     task.status = status;
     return this.taskRepo.save(task);
   }
+
+  async createTasksFromAudit(projectId: string, userId: string, issues: { type: string; message: string; severity: string }[]): Promise<CrmTask[]> {
+    const tasks = issues.map(issue =>
+      this.taskRepo.create({
+        projectId, userId,
+        title: `[Audit] ${issue.message.length > 80 ? issue.message.substring(0, 80) + '...' : issue.message}`,
+        description: `Type: ${issue.type}\nSévérité: ${issue.severity}\n\n${issue.message}`,
+        status: 'todo',
+        priority: issue.severity === 'critical' ? 'high' : issue.severity === 'high' ? 'high' : 'medium',
+        source: 'audit',
+      })
+    );
+    return this.taskRepo.save(tasks);
+  }
+
+  async createTasksFromStrategy(projectId: string, userId: string, actions: { phase: string; action: string }[]): Promise<CrmTask[]> {
+    const tasks = actions.map(a =>
+      this.taskRepo.create({
+        projectId, userId,
+        title: `[Stratégie] ${a.action.length > 80 ? a.action.substring(0, 80) + '...' : a.action}`,
+        description: `Phase: ${a.phase}\nAction: ${a.action}`,
+        status: 'todo',
+        priority: 'medium',
+        source: 'ai',
+      })
+    );
+    return this.taskRepo.save(tasks);
+  }
 }
